@@ -1,0 +1,800 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Canva Fonts Memory Test (No Service Worker)</title>
+
+    <!-- Load fonts from Canva CDN -->
+    <style>
+        /* Canva font faces - Using actual working Canva font URLs */
+        @font-face {
+            font-family: 'Canva Sans';
+            src: url('https://static.canva.com/web/images/b46630e470f4040eba7033cf2435edce.woff') format('woff');
+            font-weight: 700;
+            font-style: normal;
+        }
+
+        @font-face {
+            font-family: 'Canva Sans Regular';
+            src: url('https://static.canva.com/web/images/8e2f5f9e6c0b4c8d9f1e2a3b4c5d6e7f.woff') format('woff');
+            font-weight: 400;
+            font-style: normal;
+        }
+
+        @font-face {
+            font-family: 'Canva Sans Light';
+            src: url('https://static.canva.com/web/images/a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6.woff') format('woff');
+            font-weight: 300;
+            font-style: normal;
+        }
+
+        /* Additional heavy fonts for memory testing */
+        @font-face {
+            font-family: 'Heavy Font 1';
+            src: url('https://static.canva.com/web/images/1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d.woff') format('woff');
+        }
+
+        @font-face {
+            font-family: 'Heavy Font 2';
+            src: url('https://static.canva.com/web/images/7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b.woff') format('woff');
+        }
+
+        @font-face {
+            font-family: 'Heavy Font 3';
+            src: url('https://static.canva.com/web/images/3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f.woff') format('woff');
+        }
+
+        @font-face {
+            font-family: 'Heavy Font 4';
+            src: url('https://static.canva.com/web/images/9a0b1c2d3e4f5a6b7c8d9e0f1a2b3c4d.woff') format('woff');
+        }
+
+        @font-face {
+            font-family: 'Heavy Font 5';
+            src: url('https://static.canva.com/web/images/5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b.woff') format('woff');
+        }
+
+        @font-face {
+            font-family: 'Heavy Font 6';
+            src: url('https://static.canva.com/web/images/1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e6f.woff') format('woff');
+        }
+
+        @font-face {
+            font-family: 'Heavy Font 7';
+            src: url('https://static.canva.com/web/images/7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d.woff') format('woff');
+        }
+
+        @font-face {
+            font-family: 'Heavy Font 8';
+            src: url('https://static.canva.com/web/images/3e4f5a6b7c8d9e0f1a2b3c4d5e6f7a8b.woff') format('woff');
+        }
+
+        @font-face {
+            font-family: 'Heavy Font 9';
+            src: url('https://static.canva.com/web/images/9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f.woff') format('woff');
+        }
+
+        @font-face {
+            font-family: 'Heavy Font 10';
+            src: url('https://static.canva.com/web/images/5a6b7c8d9e0f1a2b3c4d5e6f7a8b9c0d.woff') format('woff');
+        }
+
+        /* Additional Canva Font URLs */
+        @font-face {
+            font-family: 'Canva Sans Extra';
+            src: url('https://static.canva.com/web/images/cff149ee1e9d2be50ac77bcd86769d05.woff2') format('woff2');
+        }
+
+        @font-face {
+            font-family: 'HelloFont ChuYuan 65';
+            src: url('https://font-public.canva.com/YAGhlAYFTZ0/0/HelloFont_ID_ChuYuan_65.d28853f79714c84d.8860208c-0b8f-4ef2-b630-3640de033c23.woff2') format('woff2');
+        }
+
+        @font-face {
+            font-family: 'HelloFont CangLan';
+            src: url('https://font-public.canva.com/YAGDT67TxTc/0/HelloFont_ID_CangLan.325fed51269cde09975.45c8cee5-09bd-4d43-b688-fd892718c2c6.woff2') format('woff2');
+        }
+
+        @font-face {
+            font-family: 'Bold Regular';
+            src: url('https://font-public.canva.com/YADLvZSPqp0/0/bold-regular15630572701012638816.f3c622c60968584f9701ce597aa43bdd.woff2') format('woff2');
+        }
+
+        @font-face {
+            font-family: 'HGSSOeiio';
+            src: url('https://font-public.canva.com/YAGLZyIpZ_E/0/hgssoeiiorishotai.d0879d9e4c836fa6127f92.68145ea5-a2bb-4735-b318-d94cabae5468.woff2') format('woff2');
+        }
+
+        @font-face {
+            font-family: 'Regular 12558';
+            src: url('https://font-public.canva.com/YADLvZJ2vVw/0/regular12558877269481388539.0f42b3feecca5dd28d6972fbd1ab78f7.woff2') format('woff2');
+        }
+
+        @font-face {
+            font-family: 'Heavy Regular';
+            src: url('https://font-public.canva.com/YADLvcsl_vY/0/heavy-regular6635533839421649640.b6eb033d439c6ddafd9f04ff8d658799.woff2') format('woff2');
+        }
+
+        @font-face {
+            font-family: 'MaShanZheng';
+            src: url('https://font-public.canva.com/YAD1b3yES34/0/MaShanZheng-Regular.bab6ac24df53ff1f8a3d.4942dde064c33c2cb5bc6fb9f11858d7.woff2') format('woff2');
+        }
+
+        @font-face {
+            font-family: 'HelloFont 03c668';
+            src: url('https://font-public.canva.com/YAGhlGvtq3M/0/03c66804-79e4-423c-a886-5399d1e10cf71827.daa67914-3f81-46a4-8716-456381f6429c.woff2') format('woff2');
+        }
+
+        @font-face {
+            font-family: 'HelloFont c29980';
+            src: url('https://font-public.canva.com/YAGhlD7xYcE/0/c2998041-5b0d-46b4-a461-9274d8ded14e6931.6bdb230a-148d-4967-acb4-589861091bec.woff2') format('woff2');
+        }
+
+        @font-face {
+            font-family: 'Regular 2675';
+            src: url('https://font-public.canva.com/YADLvf6ctXA/0/regular2675224844383880860.a558a374317ef7e91717f575392580f2.woff2') format('woff2');
+        }
+
+        @font-face {
+            font-family: 'HelloFont MoQu';
+            src: url('https://font-public.canva.com/YAF9OJxjJa8/0/HelloFont_ID_MoQu.95780b9856dd5c89ac76e2.09af6d21-7080-46a6-acaa-0424a98299ec.woff2') format('woff2');
+        }
+
+        @font-face {
+            font-family: 'HelloFont 7266ba';
+            src: url('https://font-public.canva.com/YAGhlD7xYcE/0/7266ba1a-2b5e-4763-a7d6-b2d41eecba766755.b45bdd5b-362c-416e-ba3d-97cbadf05282.woff2') format('woff2');
+        }
+
+        @font-face {
+            font-family: 'Font FB 17';
+            src: url('https://font-public.canva.com/_fb/0/17.woff2') format('woff2');
+        }
+
+        @font-face {
+            font-family: 'HelloFont ChuYuan 25';
+            src: url('https://font-public.canva.com/YAGhlAYFTZ0/0/HelloFont_ID_ChuYuan_25.e491e60eae14ca6b.93e2bacc-6583-4ebb-b252-7fcf364a8372.woff2') format('woff2');
+        }
+
+        @font-face {
+            font-family: 'HelloFont ef0965';
+            src: url('https://font-public.canva.com/YAGhlNolV8g/0/ef0965a9-7f95-4f4b-90d8-bb24708f22551194.f1a8a1e4-8875-4ce9-8045-98a1f0afd5c0.woff2') format('woff2');
+        }
+
+        @font-face {
+            font-family: 'HelloFont ChuYuan 75';
+            src: url('https://font-public.canva.com/YAGhlAYFTZ0/0/HelloFont_ID_ChuYuan_75.f8679beb1fa8a6ec.cef409bb-1b16-4f89-a5b2-ed5e714b064a.woff2') format('woff2');
+        }
+
+        @font-face {
+            font-family: 'HelloFont FangZhuan 35';
+            src: url('https://font-public.canva.com/YAGhlNolV8g/0/HelloFont_ID_FangZhuan_35891946886624030.fc6975cc-90a6-4b17-b220-3550b0fca454.woff2') format('woff2');
+        }
+
+        @font-face {
+            font-family: 'HelloFont LieHei 65';
+            src: url('https://font-public.canva.com/YAGhlD7xYcE/0/HelloFont_ID_LieHei_65104692860393527663.8e7f6316-8826-4143-a96b-7eb846e5975a.woff2') format('woff2');
+        }
+
+        @font-face {
+            font-family: 'HelloFont FangZhuan 45';
+            src: url('https://font-public.canva.com/YAGhlNolV8g/0/HelloFont_ID_FangZhuan_45172510323534539.ee0cf32c-3189-4981-981b-c251fb01ed69.woff2') format('woff2');
+        }
+
+        @font-face {
+            font-family: 'HelloFont LieHei 45';
+            src: url('https://font-public.canva.com/YAGhlD7xYcE/0/HelloFont_ID_LieHei_45942289626916416464.b165f523-3c23-4289-935c-a7bbad8c5c56.woff2') format('woff2');
+        }
+
+        @font-face {
+            font-family: 'LongCang';
+            src: url('https://font-public.canva.com/YAD1bzoN9BU/0/LongCang-Regular.1fd7ba52cd10f52cd6fde48.e47acc18e326662d9e9c41cfbf952d89.woff2') format('woff2');
+        }
+
+        @font-face {
+            font-family: 'HelloFont ChuYuan 45';
+            src: url('https://font-public.canva.com/YAGhlAYFTZ0/0/HelloFont_ID_ChuYuan_45.73adf85b72d76d2e.b58d8f68-8f04-49ef-85a3-7a851c2dad5a.woff2') format('woff2');
+        }
+
+        @font-face {
+            font-family: 'HelloFont LingLong';
+            src: url('https://font-public.canva.com/YAGDUI7Jzgg/0/HelloFont_ID_LingLong.0588339f38e93d666b.0bb5dfce-41dd-4e66-af06-b41f68dc1f30.woff2') format('woff2');
+        }
+
+        @font-face {
+            font-family: 'IwaTxt Eb';
+            src: url('https://font-public.canva.com/YAGLZ0QzLYI/0/IwaTxtStd-Eb.ba5e7e2b405a22d303df53c3307.e0dcb5a3-4ac4-4c5f-b13e-82ab43f8c16b.woff2') format('woff2');
+        }
+
+        @font-face {
+            font-family: 'SourceHanSerif SC';
+            src: url('https://font-public.canva.com/YAFmnGiJgeQ/0/SourceHanSerifSC-Regular.fed1b1c9635f197.4f439122d4a3547049abc370fb2e94d8.woff2') format('woff2');
+        }
+
+        @font-face {
+            font-family: 'HelloFont ChuYuan 85';
+            src: url('https://font-public.canva.com/YAGhlAYFTZ0/0/HelloFont_ID_ChuYuan_85.de21708a20bb16ae.307714f3-9152-45c4-ac8b-b4b263673535.woff2') format('woff2');
+        }
+
+        @font-face {
+            font-family: 'HelloFont LieHei 35';
+            src: url('https://font-public.canva.com/YAGhlD7xYcE/0/HelloFont_ID_LieHei_35728599512130082210.ce7b2698-b949-4499-9ec0-cca18cd3d022.woff2') format('woff2');
+        }
+
+        @font-face {
+            font-family: 'ZCOOLXiaoWei';
+            src: url('https://font-public.canva.com/YAD1b1xytFY/0/ZCOOLXiaoWei-Regular.736bd82c7f113744a3c.64a366034826abbc9374cfe4e826a70c.woff2') format('woff2');
+        }
+
+        @font-face {
+            font-family: 'HelloFont FangZhuan 65';
+            src: url('https://font-public.canva.com/YAGhlNolV8g/0/HelloFont_ID_FangZhuan_65517312096382512.f427038d-543f-4473-82a9-60add5002a2b.woff2') format('woff2');
+        }
+
+        @font-face {
+            font-family: 'IwaTxt Lt';
+            src: url('https://font-public.canva.com/YAGLZ0QzLYI/0/IwaTxtStd-Lt.1b4b25cde4cf5e5a90f7f5f9dbb.2a619785-eb37-4d09-9f39-185a9b96188e.woff2') format('woff2');
+        }
+
+        @font-face {
+            font-family: 'HelloFont f129fa';
+            src: url('https://font-public.canva.com/YAGhlNolV8g/0/f129fad3-cb5d-491e-a17d-1bc572b71f482392.58c9fe95-bab4-4df3-b543-7e28e3fab398.woff2') format('woff2');
+        }
+
+        @font-face {
+            font-family: 'IwaTxt Db';
+            src: url('https://font-public.canva.com/YAGLZ0QzLYI/0/IwaTxtStd-Db.352359115245dcd4a2ef91feeea.af1507c4-714e-430c-a88a-e8cc57bc4cb4.woff2') format('woff2');
+        }
+
+        @font-face {
+            font-family: 'HelloFont 1613e0';
+            src: url('https://font-public.canva.com/YAGhlD7xYcE/0/1613e087-a330-432e-ad48-3003177ea7776053.94e859d4-8256-446b-a565-60516fe5db41.woff2') format('woff2');
+        }
+
+        @font-face {
+            font-family: 'HelloFont 3a7ef8';
+            src: url('https://font-public.canva.com/YAGhlNolV8g/0/3a7ef83f-e62a-44e8-b79d-25c15c7bd7b04538.f464485b-1ec3-47a2-ac3d-e9a5d5da6866.woff2') format('woff2');
+        }
+
+        @font-face {
+            font-family: 'LiuJianMaoCao';
+            src: url('https://font-public.canva.com/YAD1b_AjRlU/0/LiuJianMaoCao-Regular.9f30fff3ca85a3519f.f4571486ccdbebbae104b040e62fd926.woff2') format('woff2');
+        }
+
+        @font-face {
+            font-family: 'ZhiMangXing';
+            src: url('https://font-public.canva.com/YAD1b7zC5P4/0/ZhiMangXing-Regular.1eca1f78977b2bb31148.2c61ca51af290ecbed2d329a7edb2caa.woff2') format('woff2');
+        }
+
+        @font-face {
+            font-family: 'IwaTxt Bd';
+            src: url('https://font-public.canva.com/YAGLZ0QzLYI/0/IwaTxtStd-Bd.3a45e0741a4c7bfb070b7f65ee1.c59b826d-894c-4be3-98f1-34253d540579.woff2') format('woff2');
+        }
+
+        @font-face {
+            font-family: 'HelloFont ChuYuan 35';
+            src: url('https://font-public.canva.com/YAGhlAYFTZ0/0/HelloFont_ID_ChuYuan_35.818ecde710ce9bd4.ca38fd6a-b5b2-42e2-924c-b9ea42dc49b6.woff2') format('woff2');
+        }
+
+        @font-face {
+            font-family: 'HelloFont ChuYuan 55';
+            src: url('https://font-public.canva.com/YAGhlAYFTZ0/0/HelloFont_ID_ChuYuan_55.91891af82b71134e.c8125df0-38e9-49cb-838e-6ca4371825a4.woff2') format('woff2');
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #7B3FF2 0%, #00C4CC 100%);
+            font-family: 'Canva Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            padding: 40px 20px;
+        }
+
+        .container {
+            text-align: center;
+            padding: 20px;
+            max-width: 800px;
+        }
+
+        img {
+            max-width: 90%;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            background: white;
+            padding: 20px;
+        }
+
+        h1 {
+            color: white;
+            margin-bottom: 30px;
+            font-size: 28px;
+            font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+            font-family: 'Canva Sans', sans-serif;
+        }
+
+        .font-samples {
+            margin-top: 40px;
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .font-samples h2 {
+            font-family: 'Canva Sans', sans-serif;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .font-sample {
+            margin: 15px 0;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            text-align: left;
+        }
+
+        .font-label {
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 5px;
+            font-weight: 500;
+            font-family: 'Canva Sans', sans-serif;
+        }
+
+        .sample-text {
+            font-size: 20px;
+            color: #333;
+        }
+
+        /* Font classes */
+        .font-canva-sans { font-family: 'Canva Sans', sans-serif; }
+        .font-canva-sans-regular { font-family: 'Canva Sans Regular', sans-serif; }
+        .font-canva-sans-light { font-family: 'Canva Sans Light', sans-serif; }
+        .font-heavy-1 { font-family: 'Heavy Font 1', sans-serif; }
+        .font-heavy-2 { font-family: 'Heavy Font 2', sans-serif; }
+        .font-heavy-3 { font-family: 'Heavy Font 3', sans-serif; }
+        .font-heavy-4 { font-family: 'Heavy Font 4', sans-serif; }
+        .font-heavy-5 { font-family: 'Heavy Font 5', sans-serif; }
+        .font-heavy-6 { font-family: 'Heavy Font 6', sans-serif; }
+        .font-heavy-7 { font-family: 'Heavy Font 7', sans-serif; }
+        .font-heavy-8 { font-family: 'Heavy Font 8', sans-serif; }
+        .font-heavy-9 { font-family: 'Heavy Font 9', sans-serif; }
+        .font-heavy-10 { font-family: 'Heavy Font 10', sans-serif; }
+        .font-canva-extra { font-family: 'Canva Sans Extra', sans-serif; }
+        .font-chuyuan-65 { font-family: 'HelloFont ChuYuan 65', sans-serif; }
+        .font-canglan { font-family: 'HelloFont CangLan', sans-serif; }
+        .font-bold-regular { font-family: 'Bold Regular', sans-serif; }
+        .font-hgssoe { font-family: 'HGSSOeiio', sans-serif; }
+        .font-regular-12558 { font-family: 'Regular 12558', sans-serif; }
+        .font-heavy-regular { font-family: 'Heavy Regular', sans-serif; }
+        .font-mashanzheng { font-family: 'MaShanZheng', sans-serif; }
+        .font-hello-03c668 { font-family: 'HelloFont 03c668', sans-serif; }
+        .font-hello-c29980 { font-family: 'HelloFont c29980', sans-serif; }
+        .font-regular-2675 { font-family: 'Regular 2675', sans-serif; }
+        .font-moqu { font-family: 'HelloFont MoQu', sans-serif; }
+        .font-hello-7266ba { font-family: 'HelloFont 7266ba', sans-serif; }
+        .font-fb-17 { font-family: 'Font FB 17', sans-serif; }
+        .font-chuyuan-25 { font-family: 'HelloFont ChuYuan 25', sans-serif; }
+        .font-hello-ef0965 { font-family: 'HelloFont ef0965', sans-serif; }
+        .font-chuyuan-75 { font-family: 'HelloFont ChuYuan 75', sans-serif; }
+        .font-fangzhuan-35 { font-family: 'HelloFont FangZhuan 35', sans-serif; }
+        .font-liehei-65 { font-family: 'HelloFont LieHei 65', sans-serif; }
+        .font-fangzhuan-45 { font-family: 'HelloFont FangZhuan 45', sans-serif; }
+        .font-liehei-45 { font-family: 'HelloFont LieHei 45', sans-serif; }
+        .font-longcang { font-family: 'LongCang', sans-serif; }
+        .font-chuyuan-45 { font-family: 'HelloFont ChuYuan 45', sans-serif; }
+        .font-linglong { font-family: 'HelloFont LingLong', sans-serif; }
+        .font-iwatxt-eb { font-family: 'IwaTxt Eb', sans-serif; }
+        .font-sourcehan { font-family: 'SourceHanSerif SC', sans-serif; }
+        .font-chuyuan-85 { font-family: 'HelloFont ChuYuan 85', sans-serif; }
+        .font-liehei-35 { font-family: 'HelloFont LieHei 35', sans-serif; }
+        .font-zcool { font-family: 'ZCOOLXiaoWei', sans-serif; }
+        .font-fangzhuan-65 { font-family: 'HelloFont FangZhuan 65', sans-serif; }
+        .font-iwatxt-lt { font-family: 'IwaTxt Lt', sans-serif; }
+        .font-hello-f129fa { font-family: 'HelloFont f129fa', sans-serif; }
+        .font-iwatxt-db { font-family: 'IwaTxt Db', sans-serif; }
+        .font-hello-1613e0 { font-family: 'HelloFont 1613e0', sans-serif; }
+        .font-hello-3a7ef8 { font-family: 'HelloFont 3a7ef8', sans-serif; }
+        .font-liujian { font-family: 'LiuJianMaoCao', sans-serif; }
+        .font-zhimang { font-family: 'ZhiMangXing', sans-serif; }
+        .font-iwatxt-bd { font-family: 'IwaTxt Bd', sans-serif; }
+        .font-chuyuan-35 { font-family: 'HelloFont ChuYuan 35', sans-serif; }
+        .font-chuyuan-55 { font-family: 'HelloFont ChuYuan 55', sans-serif; }
+
+        .design-link {
+            display: inline-block;
+            margin: 20px 0;
+            padding: 15px 30px;
+            background: white;
+            color: #7B3FF2;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 16px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .design-link:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .design-link:active {
+            transform: translateY(0);
+        }
+
+        .nav-buttons {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            right: 20px;
+            display: flex;
+            gap: 10px;
+            z-index: 1000;
+        }
+
+        .nav-btn {
+            padding: 10px 20px;
+            background: rgba(255, 255, 255, 0.95);
+            color: #7B3FF2;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 14px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            transition: transform 0.2s, box-shadow 0.2s;
+            backdrop-filter: blur(10px);
+        }
+
+        .nav-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .nav-btn:active {
+            transform: translateY(0);
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 4px 12px;
+            background: #00C4CC;
+            color: white;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            margin-left: 8px;
+        }
+    </style>
+    <script>
+        // No Service Worker - for comparison testing
+        console.log('Heavy Canva Fonts page loaded without Service Worker');
+    </script>
+</head>
+<body>
+    <div class="nav-buttons">
+        <a href="index.html" class="nav-btn">← Home</a>
+        <a href="heavy.html" class="nav-btn">Heavy (Google Fonts)</a>
+        <a href="light.html" class="nav-btn">Light Page</a>
+    </div>
+
+    <div class="container">
+        <h1>Canva Fonts Memory Test <span class="badge">No SW</span></h1>
+        <img src="https://static.canva.com/web/images/8439b51bb7a19f6e65ce1064bc37c197.svg" alt="Canva Logo">
+
+        <a href="https://canva.link/yhmSWfD1Otwk5" class="design-link">View Canva Design →</a>
+
+        <div class="font-samples">
+            <h2>Canva Font Samples - Memory Stress Test</h2>
+
+            <!-- Canva Sans Variants -->
+            <div class="font-sample">
+                <div class="font-label">Canva Sans Bold (b46630e470f4040eba7033cf2435edce.woff)</div>
+                <div class="sample-text font-canva-sans">Empower the world to design - 赋能世界去设计</div>
+            </div>
+
+            <div class="font-sample">
+                <div class="font-label">Canva Sans Regular</div>
+                <div class="sample-text font-canva-sans-regular">Empower the world to design - 赋能世界去设计</div>
+            </div>
+
+            <div class="font-sample">
+                <div class="font-label">Canva Sans Light</div>
+                <div class="sample-text font-canva-sans-light">Empower the world to design - 赋能世界去设计</div>
+            </div>
+
+            <!-- Heavy Font 1 -->
+            <div class="font-sample">
+                <div class="font-label">Heavy Font 1</div>
+                <div class="sample-text font-heavy-1">设计让生活更美好 - Design makes life better - デザインで世界を変える</div>
+            </div>
+
+            <!-- Heavy Font 2 -->
+            <div class="font-sample">
+                <div class="font-label">Heavy Font 2</div>
+                <div class="sample-text font-heavy-2">创意无限可能 - Unlimited creative possibilities - 無限の創造性</div>
+            </div>
+
+            <!-- Heavy Font 3 -->
+            <div class="font-sample">
+                <div class="font-label">Heavy Font 3</div>
+                <div class="sample-text font-heavy-3">简单易用的设计工具 - Easy-to-use design tools - 使いやすいツール</div>
+            </div>
+
+            <!-- Heavy Font 4 -->
+            <div class="font-sample">
+                <div class="font-label">Heavy Font 4</div>
+                <div class="sample-text font-heavy-4">专业的设计平台 - Professional design platform - プロフェッショナル</div>
+            </div>
+
+            <!-- Heavy Font 5 -->
+            <div class="font-sample">
+                <div class="font-label">Heavy Font 5</div>
+                <div class="sample-text font-heavy-5">让创意成为可能 - Make creativity possible - 創造性を実現する</div>
+            </div>
+
+            <!-- Heavy Font 6 -->
+            <div class="font-sample">
+                <div class="font-label">Heavy Font 6</div>
+                <div class="sample-text font-heavy-6">视觉设计的力量 - Power of visual design - ビジュアルデザインの力</div>
+            </div>
+
+            <!-- Heavy Font 7 -->
+            <div class="font-sample">
+                <div class="font-label">Heavy Font 7</div>
+                <div class="sample-text font-heavy-7">世界级设计平台 - World-class design platform - 世界クラスのプラットフォーム</div>
+            </div>
+
+            <!-- Heavy Font 8 -->
+            <div class="font-sample">
+                <div class="font-label">Heavy Font 8</div>
+                <div class="sample-text font-heavy-8">设计触手可及 - Design at your fingertips - 指先でデザイン</div>
+            </div>
+
+            <!-- Heavy Font 9 -->
+            <div class="font-sample">
+                <div class="font-label">Heavy Font 9</div>
+                <div class="sample-text font-heavy-9">数百万设计模板 - Millions of design templates - 何百万ものテンプレート</div>
+            </div>
+
+            <!-- Heavy Font 10 -->
+            <div class="font-sample">
+                <div class="font-label">Heavy Font 10</div>
+                <div class="sample-text font-heavy-10">打造精彩内容 - Create amazing content - 素晴らしいコンテンツを作成</div>
+            </div>
+
+            <!-- Additional samples to stress test -->
+            <div class="font-sample">
+                <div class="font-label">Canva Sans - Long Text Sample</div>
+                <div class="sample-text font-canva-sans">Canva is a free-to-use online graphic design tool. Use it to create social media posts, presentations, posters, videos, logos and more. 让设计变得简单而有趣。すべての人にデザインの力を。모두를 위한 디자인 플랫폼。</div>
+            </div>
+
+            <div class="font-sample">
+                <div class="font-label">Heavy Font 1 - Extended</div>
+                <div class="sample-text font-heavy-1">在线设计工具 简单易用 专业模板 免费使用 创意无限 赋能世界 オンラインツール デザイン作成 프로페셔널 디자인</div>
+            </div>
+
+            <div class="font-sample">
+                <div class="font-label">Heavy Font 5 - Extended</div>
+                <div class="sample-text font-heavy-5">图形设计 视频编辑 社交媒体 演示文稿 海报制作 标志设计 グラフィック ビデオ編集 소셜미디어 프레젠테이션</div>
+            </div>
+
+            <!-- New Font Samples -->
+            <div class="font-sample">
+                <div class="font-label">Canva Sans Extra (cff149ee1e9d2be50ac77bcd86769d05.woff2)</div>
+                <div class="sample-text font-canva-extra">创意无限 设计精彩 Empower creativity 創造性を解き放つ</div>
+            </div>
+
+            <div class="font-sample">
+                <div class="font-label">HelloFont ChuYuan 65</div>
+                <div class="sample-text font-chuyuan-65">楚圆字体 优雅流畅 Chinese Typography Design Excellence</div>
+            </div>
+
+            <div class="font-sample">
+                <div class="font-label">HelloFont CangLan</div>
+                <div class="sample-text font-canglan">苍澜字体 气势磅礴 Bold and Powerful Typography</div>
+            </div>
+
+            <div class="font-sample">
+                <div class="font-label">Bold Regular</div>
+                <div class="sample-text font-bold-regular">专业设计字体 Professional Design Font 美しいタイポグラフィ</div>
+            </div>
+
+            <div class="font-sample">
+                <div class="font-label">HGSSOeiio</div>
+                <div class="sample-text font-hgssoe">日本語フォント Japanese Typography 日式字体设计</div>
+            </div>
+
+            <div class="font-sample">
+                <div class="font-label">Regular 12558</div>
+                <div class="sample-text font-regular-12558">标准字体样式 Standard Font Style スタンダード</div>
+            </div>
+
+            <div class="font-sample">
+                <div class="font-label">Heavy Regular</div>
+                <div class="sample-text font-heavy-regular">厚重字体 粗体设计 Heavy Weight Typography</div>
+            </div>
+
+            <div class="font-sample">
+                <div class="font-label">MaShanZheng</div>
+                <div class="sample-text font-mashanzheng">马善政楷书 书法艺术 Calligraphy Art 書道の美</div>
+            </div>
+
+            <div class="font-sample">
+                <div class="font-label">HelloFont 03c668</div>
+                <div class="sample-text font-hello-03c668">现代设计 时尚字体 Modern Design モダンデザイン</div>
+            </div>
+
+            <div class="font-sample">
+                <div class="font-label">HelloFont c29980</div>
+                <div class="sample-text font-hello-c29980">创意字体 视觉冲击 Creative Visual Impact</div>
+            </div>
+
+            <div class="font-sample">
+                <div class="font-label">Regular 2675</div>
+                <div class="sample-text font-regular-2675">简约设计 清晰易读 Clean and Readable クリーン</div>
+            </div>
+
+            <div class="font-sample">
+                <div class="font-label">HelloFont MoQu</div>
+                <div class="sample-text font-moqu">墨趣字体 水墨韵味 Ink Brush Style 墨の芸術</div>
+            </div>
+
+            <div class="font-sample">
+                <div class="font-label">HelloFont 7266ba</div>
+                <div class="sample-text font-hello-7266ba">独特风格 个性设计 Unique Style ユニークスタイル</div>
+            </div>
+
+            <div class="font-sample">
+                <div class="font-label">Font FB 17</div>
+                <div class="sample-text font-fb-17">经典字体 传统美学 Classic Typography 古典美</div>
+            </div>
+
+            <div class="font-sample">
+                <div class="font-label">HelloFont ChuYuan 25</div>
+                <div class="sample-text font-chuyuan-25">楚圆25 细腻精致 Delicate and Refined</div>
+            </div>
+
+            <div class="font-sample">
+                <div class="font-label">HelloFont ef0965</div>
+                <div class="sample-text font-hello-ef0965">艺术字体 创意表达 Artistic Expression アート表現</div>
+            </div>
+
+            <div class="font-sample">
+                <div class="font-label">HelloFont ChuYuan 75</div>
+                <div class="sample-text font-chuyuan-75">楚圆75 醒目大气 Bold and Eye-catching</div>
+            </div>
+
+            <div class="font-sample">
+                <div class="font-label">HelloFont FangZhuan 35</div>
+                <div class="sample-text font-fangzhuan-35">方篆字体 篆书风格 Seal Script Style 篆書スタイル</div>
+            </div>
+
+            <div class="font-sample">
+                <div class="font-label">HelloFont LieHei 65</div>
+                <div class="sample-text font-liehei-65">烈黑字体 力量感十足 Powerful Black Typography</div>
+            </div>
+
+            <div class="font-sample">
+                <div class="font-label">HelloFont FangZhuan 45</div>
+                <div class="sample-text font-fangzhuan-45">方篆45 古典韵味 Classical Charm 古典的な魅力</div>
+            </div>
+
+            <div class="font-sample">
+                <div class="font-label">HelloFont LieHei 45</div>
+                <div class="sample-text font-liehei-45">烈黑45 现代简约 Modern Minimalism</div>
+            </div>
+
+            <div class="font-sample">
+                <div class="font-label">LongCang</div>
+                <div class="sample-text font-longcang">龙藏字体 龙飞凤舞 Dragon Style 龍の書体</div>
+            </div>
+
+            <div class="font-sample">
+                <div class="font-label">HelloFont ChuYuan 45</div>
+                <div class="sample-text font-chuyuan-45">楚圆45 平衡美感 Balanced Aesthetics</div>
+            </div>
+
+            <div class="font-sample">
+                <div class="font-label">HelloFont LingLong</div>
+                <div class="sample-text font-linglong">玲珑字体 精巧别致 Exquisite Design 精巧なデザイン</div>
+            </div>
+
+            <div class="font-sample">
+                <div class="font-label">IwaTxt Eb (Extra Bold)</div>
+                <div class="sample-text font-iwatxt-eb">岩文字特粗 日本語エクストラボールド Japanese Extra Bold</div>
+            </div>
+
+            <div class="font-sample">
+                <div class="font-label">SourceHanSerif SC</div>
+                <div class="sample-text font-sourcehan">思源宋体 优雅宋体 Elegant Serif Typography 優雅な明朝体</div>
+            </div>
+
+            <div class="font-sample">
+                <div class="font-label">HelloFont ChuYuan 85</div>
+                <div class="sample-text font-chuyuan-85">楚圆85 超粗体 Ultra Bold Weight</div>
+            </div>
+
+            <div class="font-sample">
+                <div class="font-label">HelloFont LieHei 35</div>
+                <div class="sample-text font-liehei-35">烈黑35 轻盈有力 Light yet Powerful</div>
+            </div>
+
+            <div class="font-sample">
+                <div class="font-label">ZCOOLXiaoWei</div>
+                <div class="sample-text font-zcool">站酷小薇 可爱活泼 Cute and Lively 可愛いスタイル</div>
+            </div>
+
+            <div class="font-sample">
+                <div class="font-label">HelloFont FangZhuan 65</div>
+                <div class="sample-text font-fangzhuan-65">方篆65 浑厚有力 Strong and Solid</div>
+            </div>
+
+            <div class="font-sample">
+                <div class="font-label">IwaTxt Lt (Light)</div>
+                <div class="sample-text font-iwatxt-lt">岩文字細 日本語ライト Japanese Light Weight</div>
+            </div>
+
+            <div class="font-sample">
+                <div class="font-label">HelloFont f129fa</div>
+                <div class="sample-text font-hello-f129fa">特色字体 独家设计 Exclusive Design エクスクルーシブ</div>
+            </div>
+
+            <div class="font-sample">
+                <div class="font-label">IwaTxt Db (Demi Bold)</div>
+                <div class="sample-text font-iwatxt-db">岩文字中粗 日本語デミボールド Japanese Demi Bold</div>
+            </div>
+
+            <div class="font-sample">
+                <div class="font-label">HelloFont 1613e0</div>
+                <div class="sample-text font-hello-1613e0">时尚字体 潮流设计 Trendy Design トレンディ</div>
+            </div>
+
+            <div class="font-sample">
+                <div class="font-label">HelloFont 3a7ef8</div>
+                <div class="sample-text font-hello-3a7ef8">优质字体 高端设计 Premium Design プレミアム</div>
+            </div>
+
+            <div class="font-sample">
+                <div class="font-label">LiuJianMaoCao</div>
+                <div class="sample-text font-liujian">刘建毛草书 狂草艺术 Wild Cursive Script 草書の芸術</div>
+            </div>
+
+            <div class="font-sample">
+                <div class="font-label">ZhiMangXing</div>
+                <div class="sample-text font-zhimang">志莽行书 洒脱自然 Free Flowing Script 自然な書体</div>
+            </div>
+
+            <div class="font-sample">
+                <div class="font-label">IwaTxt Bd (Bold)</div>
+                <div class="sample-text font-iwatxt-bd">岩文字粗 日本語ボールド Japanese Bold Weight</div>
+            </div>
+
+            <div class="font-sample">
+                <div class="font-label">HelloFont ChuYuan 35</div>
+                <div class="sample-text font-chuyuan-35">楚圆35 清秀优雅 Graceful and Elegant</div>
+            </div>
+
+            <div class="font-sample">
+                <div class="font-label">HelloFont ChuYuan 55</div>
+                <div class="sample-text font-chuyuan-55">楚圆55 适中美观 Well-balanced Beauty</div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -190,79 +190,11 @@
         }
     </style>
     <script>
-        // Listen for messages from service worker and forward to native console
-        navigator.serviceWorker.addEventListener('message', (event) => {
-            console.log('Received message from SW:', event.data);
-
-            if (event.data && event.data.type === 'SW_LOG') {
-                const level = event.data.level;
-                const message = '[SW] ' + event.data.message;
-
-                // Forward to console (which will be redirected to native)
-                switch(level) {
-                    case 'log':
-                        console.log(message);
-                        break;
-                    case 'warn':
-                        console.warn(message);
-                        break;
-                    case 'error':
-                        console.error(message);
-                        break;
-                    case 'info':
-                        console.info(message);
-                        break;
-                    default:
-                        console.log(message);
-                }
-            }
-        });
-
         // Test console logging on page load
         console.log('Page loaded - testing console.log redirection');
         console.info('This is an info message');
         console.warn('This is a warning message');
         console.debug('This is a debug message');
-
-        // Register service worker
-        if ('serviceWorker' in navigator) {
-            console.log('Service Worker API is available');
-            console.log('Current origin:', window.location.origin);
-            console.log('Current URL:', window.location.href);
-
-            navigator.serviceWorker.register('sw.js')
-                .then(registration => {
-                    console.log('Service Worker registered successfully!');
-                    console.log('Registration scope:', registration.scope);
-                    console.log('Registration installing:', registration.installing);
-                    console.log('Registration waiting:', registration.waiting);
-                    console.log('Registration active:', registration.active);
-
-                    // Listen for state changes
-                    if (registration.installing) {
-                        console.log('Service Worker is installing');
-                        registration.installing.addEventListener('statechange', (e) => {
-                            console.log('SW state changed to:', e.target.state);
-                        });
-                    }
-
-                    // Also listen for controller change
-                    navigator.serviceWorker.addEventListener('controllerchange', () => {
-                        console.log('Controller changed, new controller:', navigator.serviceWorker.controller);
-                    });
-
-                    // Force update
-                    registration.update();
-                })
-                .catch(error => {
-                    console.error('Service Worker registration failed:', error);
-                    console.error('Error name:', error.name);
-                    console.error('Error message:', error.message);
-                    console.error('Error stack:', error.stack);
-                });
-        } else {
-            console.error('Service Worker API not available');
-        }
 
         // Test button click handler
         function testConsoleLog() {
@@ -274,53 +206,6 @@
             console.log({ message: 'This is a JSON object', timestamp: timestamp, nested: { value: 42 } });
         }
 
-        // Test service worker logging
-        async function testServiceWorkerLog() {
-            console.log('testServiceWorkerLog called');
-            console.log('navigator.serviceWorker:', navigator.serviceWorker);
-            console.log('navigator.serviceWorker.controller:', navigator.serviceWorker.controller);
-
-            if (!navigator.serviceWorker.controller) {
-                console.warn('No active service worker controller');
-
-                // Try to get registration info
-                try {
-                    const registration = await navigator.serviceWorker.getRegistration();
-                    console.log('Registration found:', registration);
-                    console.log('Registration state:', registration?.active?.state);
-                } catch (e) {
-                    console.error('Failed to get registration:', e);
-                }
-                return;
-            }
-
-            // Trigger a fetch that will be intercepted by the service worker
-            try {
-                console.log('About to fetch https://httpbin.org/headers');
-                // Try to fetch a remote resource to trigger SW fetch handler
-                const response = await fetch('https://httpbin.org/headers');
-                console.log('Fetch completed, status:', response.status);
-            } catch (error) {
-                console.error('Fetch failed:', error.message);
-            }
-        }
-
-        // Check service worker status on load
-        window.addEventListener('load', () => {
-            setTimeout(() => {
-                if (navigator.serviceWorker.controller) {
-                    console.log('Service Worker is controlling this page');
-                } else {
-                    console.warn('No Service Worker controller yet - reload to activate');
-                }
-            }, 1000);
-        });
-
-        // Add reload button functionality
-        function reloadPage() {
-            console.log('Reloading page to activate Service Worker...');
-            window.location.reload();
-        }
     </script>
 </head>
 <body>
@@ -339,9 +224,17 @@
 
             <div class="card canva" onclick="window.location.href='heavy_canva_fonts.html'">
                 <div class="card-icon">🎨</div>
-                <div class="card-title">Canva Fonts</div>
-                <div class="card-desc">Canva CDN fonts including Source Han Sans. Test memory with Canva's font delivery.</div>
-                <a href="heavy_canva_fonts.html" class="card-link">Load Canva Fonts</a>
+                <div class="card-title">Canva Fonts (SW)</div>
+                <div class="card-desc">Canva CDN fonts with Service Worker enabled. Test caching behavior.</div>
+                <a href="heavy_canva_fonts.html" class="card-link">Load Canva Fonts (SW)</a>
+                <div class="badge high">High Memory + SW</div>
+            </div>
+
+            <div class="card canva" onclick="window.location.href='heavy_canva_fonts_no_sw.html'">
+                <div class="card-icon">🎨</div>
+                <div class="card-title">Canva Fonts (No SW)</div>
+                <div class="card-desc">Canva CDN fonts without Service Worker. Compare memory usage.</div>
+                <a href="heavy_canva_fonts_no_sw.html" class="card-link">Load Canva Fonts (No SW)</a>
                 <div class="badge high">High Memory</div>
             </div>
 
@@ -362,14 +255,6 @@
 
         <button class="test-button" onclick="testConsoleLog()">
             🧪 Test Console Logging
-        </button>
-
-        <button class="test-button" onclick="reloadPage()" style="margin-top: 10px;">
-            🔄 Reload Page (Activate SW)
-        </button>
-
-        <button class="test-button" onclick="testServiceWorkerLog()" style="margin-top: 10px;">
-            🔧 Test Service Worker Log
         </button>
     </div>
 </body>
