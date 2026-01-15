@@ -311,10 +311,16 @@
                 if (navigator.serviceWorker.controller) {
                     console.log('Service Worker is controlling this page');
                 } else {
-                    console.warn('No Service Worker controller yet');
+                    console.warn('No Service Worker controller yet - reload to activate');
                 }
             }, 1000);
         });
+
+        // Add reload button functionality
+        function reloadPage() {
+            console.log('Reloading page to activate Service Worker...');
+            window.location.reload();
+        }
     </script>
 </head>
 <body>
@@ -356,6 +362,10 @@
 
         <button class="test-button" onclick="testConsoleLog()">
             🧪 Test Console Logging
+        </button>
+
+        <button class="test-button" onclick="reloadPage()" style="margin-top: 10px;">
+            🔄 Reload Page (Activate SW)
         </button>
 
         <button class="test-button" onclick="testServiceWorkerLog()" style="margin-top: 10px;">
