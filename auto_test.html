@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Auto Test - Page A</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            padding: 40px 20px;
+        }
+
+        .container {
+            text-align: center;
+            padding: 50px 40px;
+            max-width: 600px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 32px;
+            font-weight: 700;
+        }
+
+        .status {
+            font-size: 18px;
+            color: #666;
+            margin: 20px 0;
+        }
+
+        .counter {
+            font-size: 48px;
+            font-weight: 700;
+            color: #667eea;
+            margin: 30px 0;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 8px 16px;
+            background: #667eea;
+            color: white;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 700;
+            text-transform: uppercase;
+            margin: 10px 5px;
+        }
+
+        .badge.pageA {
+            background: #667eea;
+        }
+
+        .nav-btn {
+            display: inline-block;
+            margin: 20px 10px;
+            padding: 15px 30px;
+            background: #dc3545;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 16px;
+            box-shadow: 0 5px 15px rgba(220, 53, 69, 0.3);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .nav-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(220, 53, 69, 0.4);
+        }
+
+        .nav-btn:active {
+            transform: translateY(0);
+        }
+    </style>
+    <script>
+        console.log('Auto Test Page A loaded');
+
+        let navigationCount = 0;
+        const STORAGE_KEY = 'autoTestNavigationCount';
+        const MAX_COUNT_KEY = 'autoTestMaxCount';
+
+        // Get navigation count from sessionStorage
+        const storedCount = sessionStorage.getItem(STORAGE_KEY);
+        if (storedCount) {
+            navigationCount = parseInt(storedCount, 10);
+        }
+        navigationCount++;
+        sessionStorage.setItem(STORAGE_KEY, navigationCount.toString());
+
+        // Get max count from sessionStorage (default 50 if not set)
+        let maxCount = sessionStorage.getItem(MAX_COUNT_KEY);
+        if (!maxCount) {
+            maxCount = '50';
+            sessionStorage.setItem(MAX_COUNT_KEY, maxCount);
+        }
+        maxCount = parseInt(maxCount, 10);
+
+        console.log('Navigation count:', navigationCount, '/', maxCount);
+
+        // Update counter display
+        window.addEventListener('load', function() {
+            const counterElement = document.querySelector('.counter');
+            const maxCountElement = document.querySelector('.max-count');
+            const loopSelect = document.querySelector('#loop-count');
+
+            if (counterElement) {
+                counterElement.textContent = navigationCount;
+            }
+            if (maxCountElement) {
+                maxCountElement.textContent = maxCount;
+            }
+            if (loopSelect) {
+                loopSelect.value = maxCount;
+            }
+
+            // Check if we've reached the max count
+            if (navigationCount >= maxCount) {
+                console.log('Max count reached! Stopping auto-navigation.');
+                document.querySelector('.status').textContent = 'Loop Completed!';
+                document.querySelector('.status').style.color = '#28a745';
+                return;
+            }
+
+            // Navigate to Page B after 1 second
+            console.log('Will navigate to Page B in 1 second...');
+            setTimeout(function() {
+                console.log('Navigating to auto_test_heavy.html');
+                window.location.href = 'auto_test_heavy.html';
+            }, 1000);
+        });
+
+        function updateMaxCount() {
+            const loopSelect = document.querySelector('#loop-count');
+            const newMaxCount = loopSelect.value;
+            sessionStorage.setItem(MAX_COUNT_KEY, newMaxCount);
+            document.querySelector('.max-count').textContent = newMaxCount;
+            console.log('Max count updated to:', newMaxCount);
+        }
+
+        function resetCounter() {
+            sessionStorage.setItem(STORAGE_KEY, '0');
+            console.log('Counter reset');
+            window.location.reload();
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1>Auto Memory Test</h1>
+        <div class="badge pageA">Page A</div>
+
+        <div class="status">Navigation Loop Active</div>
+        <div class="counter">0</div>
+        <div style="margin: 10px 0; color: #999; font-size: 16px;">
+            / <span class="max-count">50</span> navigations
+        </div>
+
+        <div style="margin: 30px 0;">
+            <label for="loop-count" style="display: block; margin-bottom: 10px; color: #666; font-size: 14px; font-weight: 600;">
+                Set Maximum Loop Count:
+            </label>
+            <select id="loop-count" onchange="updateMaxCount()" style="padding: 10px 20px; font-size: 16px; border-radius: 8px; border: 2px solid #667eea; background: white; color: #333; cursor: pointer; font-weight: 600;">
+                <option value="5">5 loops</option>
+                <option value="50">50 loops</option>
+                <option value="100">100 loops</option>
+                <option value="500">500 loops</option>
+                <option value="1000">1000 loops</option>
+            </select>
+        </div>
+
+        <p style="margin: 20px 0; color: #666; font-size: 14px;">
+            This page will automatically navigate to the heavy font page in 1 second,<br>
+            which will then navigate back here, creating a continuous loop.<br>
+            The loop will stop after reaching the maximum count.
+        </p>
+
+        <div style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
+            <a href="index.html" class="nav-btn">Stop & Return Home</a>
+            <button onclick="resetCounter()" class="nav-btn" style="border: none; cursor: pointer; background: #28a745;">Reset Counter</button>
+        </div>
+    </div>
+</body>
+</html>
