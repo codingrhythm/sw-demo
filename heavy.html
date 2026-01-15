@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Simple WebView App</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <!-- CJK Fonts (Large file sizes) - Load multiple weights for maximum memory usage -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@100;300;400;500;700;900&family=Noto+Sans+TC:wght@100;300;400;500;700;900&family=Noto+Sans+JP:wght@100;300;400;500;700;900&family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
+
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@200;300;400;500;600;700;900&family=Noto+Serif+TC:wght@200;300;400;500;600;700;900&family=Noto+Serif+JP:wght@200;300;400;500;600;700;900&family=Noto+Serif+KR:wght@200;300;400;500;600;700;900&display=swap" rel="stylesheet">
+
+    <!-- More Chinese Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=ZCOOL+XiaoWei&family=Zhi+Mang+Xing&family=Long+Cang&family=Liu+Jian+Mao+Cao&family=ZCOOL+KuaiLe&family=ZCOOL+QingKe+HuangYou&family=Zhi+Mang+Xing&display=swap" rel="stylesheet">
+
+    <!-- Japanese Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@200;300;400;500;600;700;900&family=Shippori+Mincho:wght@400;500;600;700;800&family=Shippori+Mincho+B1:wght@400;500;600;700;800&family=Zen+Maru+Gothic:wght@300;400;500;700;900&family=Zen+Kaku+Gothic+New:wght@300;400;500;700;900&family=Klee+One:wght@400;600&family=Yusei+Magic&family=DotGothic16&family=RocknRoll+One&family=Stick&family=Hachi+Maru+Pop&family=Potta+One&family=Reggae+One&family=Train+One&family=New+Tegomin&family=Rampart+One&family=Kaisei+Tokumin:wght@400;500;700;800&family=Kaisei+Opti:wght@400;500;700&family=Kaisei+Decol:wght@400;500;700&family=Kaisei+HarunoUmi:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <!-- Korean Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700;800&family=Nanum+Myeongjo:wght@400;700;800&family=Nanum+Brush+Script&family=Nanum+Pen+Script&family=Black+Han+Sans&family=Stylish&family=Do+Hyeon&family=Jua&family=Sunflower:wght@300;500;700&family=Cute+Font&family=Poor+Story&family=Gamja+Flower&family=East+Sea+Dokdo&family=Gaegu:wght@300;400;700&family=Single+Day&family=Yeon+Sung&family=Dokdo&family=Hi+Melody&family=Gothic+A1:wght@100;300;400;500;700;900&family=Nanum+Gothic+Coding:wght@400;700&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', Oxygen, Ubuntu, Cantarell, sans-serif;
+            padding: 40px 20px;
+        }
+
+        .container {
+            text-align: center;
+            padding: 20px;
+            max-width: 800px;
+        }
+
+        img {
+            max-width: 90%;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            background: white;
+            padding: 20px;
+        }
+
+        h1 {
+            color: white;
+            margin-bottom: 30px;
+            font-size: 28px;
+            font-weight: 600;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .font-samples {
+            margin-top: 40px;
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .font-samples h2 {
+            font-family: 'Roboto', sans-serif;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .font-sample {
+            margin: 15px 0;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            text-align: left;
+        }
+
+        .font-label {
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 5px;
+            font-weight: 500;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        .sample-text {
+            font-size: 20px;
+            color: #333;
+        }
+
+        /* Chinese Fonts */
+        .font-noto-sans-sc { font-family: 'Noto Sans SC', sans-serif; }
+        .font-noto-sans-tc { font-family: 'Noto Sans TC', sans-serif; }
+        .font-noto-serif-sc { font-family: 'Noto Serif SC', serif; }
+        .font-noto-serif-tc { font-family: 'Noto Serif TC', serif; }
+        .font-ma-shan { font-family: 'Ma Shan Zheng', cursive; }
+        .font-zcool { font-family: 'ZCOOL XiaoWei', serif; }
+        .font-zcool-kuaile { font-family: 'ZCOOL KuaiLe', sans-serif; }
+        .font-zcool-qingke { font-family: 'ZCOOL QingKe HuangYou', sans-serif; }
+        .font-zhi-mang { font-family: 'Zhi Mang Xing', cursive; }
+        .font-long-cang { font-family: 'Long Cang', cursive; }
+        .font-liu-jian { font-family: 'Liu Jian Mao Cao', cursive; }
+
+        /* Japanese Fonts */
+        .font-noto-sans-jp { font-family: 'Noto Sans JP', sans-serif; }
+        .font-noto-serif-jp { font-family: 'Noto Serif JP', serif; }
+        .font-shippori { font-family: 'Shippori Mincho', serif; }
+        .font-shippori-b1 { font-family: 'Shippori Mincho B1', serif; }
+        .font-zen-maru { font-family: 'Zen Maru Gothic', sans-serif; }
+        .font-zen-kaku { font-family: 'Zen Kaku Gothic New', sans-serif; }
+        .font-klee { font-family: 'Klee One', cursive; }
+        .font-yusei { font-family: 'Yusei Magic', sans-serif; }
+        .font-dotgothic { font-family: 'DotGothic16', sans-serif; }
+        .font-rocknroll { font-family: 'RocknRoll One', sans-serif; }
+        .font-stick { font-family: 'Stick', sans-serif; }
+        .font-hachi { font-family: 'Hachi Maru Pop', cursive; }
+        .font-potta { font-family: 'Potta One', cursive; }
+        .font-reggae { font-family: 'Reggae One', cursive; }
+        .font-train { font-family: 'Train One', cursive; }
+        .font-tegomin { font-family: 'New Tegomin', serif; }
+        .font-rampart { font-family: 'Rampart One', cursive; }
+        .font-kaisei-toku { font-family: 'Kaisei Tokumin', serif; }
+        .font-kaisei-opti { font-family: 'Kaisei Opti', serif; }
+        .font-kaisei-decol { font-family: 'Kaisei Decol', serif; }
+        .font-kaisei-haruno { font-family: 'Kaisei HarunoUmi', serif; }
+
+        /* Korean Fonts */
+        .font-noto-sans-kr { font-family: 'Noto Sans KR', sans-serif; }
+        .font-noto-serif-kr { font-family: 'Noto Serif KR', serif; }
+        .font-nanum-gothic { font-family: 'Nanum Gothic', sans-serif; }
+        .font-nanum-myeongjo { font-family: 'Nanum Myeongjo', serif; }
+        .font-nanum-brush { font-family: 'Nanum Brush Script', cursive; }
+        .font-nanum-pen { font-family: 'Nanum Pen Script', cursive; }
+        .font-black-han { font-family: 'Black Han Sans', sans-serif; }
+        .font-stylish { font-family: 'Stylish', sans-serif; }
+        .font-do-hyeon { font-family: 'Do Hyeon', sans-serif; }
+        .font-jua { font-family: 'Jua', sans-serif; }
+        .font-sunflower { font-family: 'Sunflower', sans-serif; }
+        .font-cute { font-family: 'Cute Font', cursive; }
+        .font-poor-story { font-family: 'Poor Story', cursive; }
+        .font-gamja { font-family: 'Gamja Flower', cursive; }
+        .font-dokdo { font-family: 'East Sea Dokdo', cursive; }
+        .font-gaegu { font-family: 'Gaegu', cursive; }
+        .font-single-day { font-family: 'Single Day', cursive; }
+        .font-yeon-sung { font-family: 'Yeon Sung', cursive; }
+        .font-dokdo2 { font-family: 'Dokdo', cursive; }
+        .font-hi-melody { font-family: 'Hi Melody', cursive; }
+        .font-gothic-a1 { font-family: 'Gothic A1', sans-serif; }
+        .font-nanum-coding { font-family: 'Nanum Gothic Coding', monospace; }
+
+        .design-link {
+            display: inline-block;
+            margin: 20px 0;
+            padding: 15px 30px;
+            background: white;
+            color: #667eea;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 16px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .design-link:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .design-link:active {
+            transform: translateY(0);
+        }
+
+        .nav-buttons {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            right: 20px;
+            display: flex;
+            gap: 10px;
+            z-index: 1000;
+        }
+
+        .nav-btn {
+            padding: 10px 20px;
+            background: rgba(255, 255, 255, 0.95);
+            color: #667eea;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 14px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            transition: transform 0.2s, box-shadow 0.2s;
+            backdrop-filter: blur(10px);
+        }
+
+        .nav-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .nav-btn:active {
+            transform: translateY(0);
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 4px 12px;
+            background: #ffebee;
+            color: #c62828;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            margin-left: 8px;
+        }
+    </style>
+    <script>
+        // Register service worker
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('sw.js')
+                .then(registration => {
+                    console.log('Service Worker registered with scope:', registration.scope);
+                })
+                .catch(error => {
+                    console.error('Service Worker registration failed:', error);
+                });
+        }
+    </script>
+</head>
+<body>
+    <div class="nav-buttons">
+        <a href="index.html" class="nav-btn">← Home</a>
+        <a href="light.html" class="nav-btn">Light Page</a>
+    </div>
+
+    <div class="container">
+        <h1>Heavy Memory Page <span class="badge">High Usage</span></h1>
+        <img src="https://static.canva.com/web/images/8439b51bb7a19f6e65ce1064bc37c197.svg" alt="Canva Image">
+
+        <a href="https://canva.link/yhmSWfD1Otwk5" class="design-link">View Large Design →</a>
+
+        <div class="font-samples">
+            <h2>CJK Font Samples - Memory Stress Test</h2>
+
+            <!-- Chinese Fonts -->
+            <div class="font-sample">
+                <div class="font-label">Noto Sans SC (简体中文)</div>
+                <div class="sample-text font-noto-sans-sc">赋能世界去设计 - empower the world to design</div>
+            </div>
+
+            <div class="font-sample">
+                <div class="font-label">Noto Sans TC (繁體中文)</div>
+                <div class="sample-text font-noto-sans-tc">賦能世界去設計 - empower the world to design</div>
+            </div>
+
+            <div class="font-sample">
+                <div class="font-label">Noto Serif SC (简体衬线)</div>
+                <div class="sample-text font-noto-serif-sc">赋能世界去设计 - empower the world to design</div>
+            </div>
+
+            <div class="font-sample">
+                <div class="font-label">Noto Serif TC (繁體襯線)</div>
+                <div class="sample-text font-noto-serif-tc">賦能世界去設計 - empower the world to design</div>
+            </div>
+
+            <div class="font-sample">
+                <div class="font-label">Ma Shan Zheng (马善政体)</div>
+                <div class="sample-text font-ma-shan">赋能世界去设计 - empower the world to design</div>
+            </div>
+
+            <div class="font-sample">
+                <div class="font-label">ZCOOL XiaoWei (站酷小薇)</div>
+                <div class="sample-text font-zcool">赋能世界去设计 - empower the world to design</div>
+            </div>
+
+            <div class="font-sample">
+                <div class="font-label">ZCOOL KuaiLe (站酷快乐)</div>
+                <div class="sample-text font-zcool-kuaile">赋能世界去设计 - empower the world to design</div>
+            </div>
+
+            <div class="font-sample">
+                <div class="font-label">ZCOOL QingKe HuangYou (站酷庆科黄油)</div>
+                <div class="sample-text font-zcool-qingke">赋能世界去设计 - empower the world to design</div>
+            </div>
+
+            <div class="font-sample">
+                <div class="font-label">Zhi Mang Xing (志莽行书)</div>
+                <div class="sample-text font-zhi-mang">赋能世界去设计 - empower the world to design</div>
+            </div>
+
+            <div class="font-sample">
+                <div class="font-label">Long Cang (龙藏体)</div>
+                <div class="sample-text font-long-cang">赋能世界去设计 - empower the world to design</div>
+            </div>
+
+            <div class="font-sample">
+                <div class="font-label">Liu Jian Mao Cao (刘建毛草)</div>
+                <div class="sample-text font-liu-jian">赋能世界去设计 - empower the world to design</div>
+            </div>
+
+            <!-- Japanese Fonts -->
+            <div class="font-sample">
+                <div class="font-label">Noto Sans JP (日本語ゴシック)</div>
+                <div class="sample-text font-noto-sans-jp">世界にデザインする力を - empower the world to design</div>
+            </div>
+
+            <div class="font-sample">
+                <div class="font-label">Noto Serif JP (日本語明朝)</div>
+                <div class="sample-text font-noto-serif-jp">世界にデザインする力を - empower the world to design</div>
+            </div>
+
+            <div class="font-sample">
+                <div class="font-label">Shippori Mincho (しっぽり明朝)</div>
+                <div class="sample-text font-shippori">世界にデザインする力を - empower the world to design</div>
+            </div>
+
+            <div class="font-sample">
+                <div class="font-label">Shippori Mincho B1</div>
+                <div class="sample-text font-shippori-b1">世界にデザインする力を - empower the world to design</div>
+            </div>
+
+            <div class="font-sample">
+                <div class="font-label">Zen Maru Gothic (禅丸ゴシック)</div>
+                <div class="sample-text font-zen-maru">世界にデザインする力を - empower the world to design</div>
+            </div>
+
+            <div class="font-sample">
+                <div class="font-label">Zen Kaku Gothic New (禅角ゴシック)</div>
+                <div class="sample-text font-zen-kaku">世界にデザインする力を - empower the world to design</div>
+            </div>
+
+            <div class="font-sample">
+                <div class="font-label">Klee One (クレー)</div>
+                <div class="sample-text font-klee">世界にデザインする力を - empower the world to design</div>
+            </div>
+
+            <div class="font-sample">
+                <div class="font-label">Yusei Magic (油性マジック)</div>
+                <div class="sample-text font-yusei">世界にデザインする力を - empower the world to design</div>
+            </div>
+
+            <div class="font-sample">
+                <div class="font-label">DotGothic16 (ドットゴシック)</div>
+                <div class="sample-text font-dotgothic">世界にデザインする力を - empower the world to design</div>
+            </div>
+
+            <div class="font-sample">
+                <div class="font-label">RocknRoll One (ロックンロール)</div>
+                <div class="sample-text font-rocknroll">世界にデザインする力を - empower the world to design</div>
+            </div>
+
+            <div class="font-sample">
+                <div class="font-label">Stick (スティック)</div>
+                <div class="sample-text font-stick">世界にデザインする力を - empower the world to design</div>
+            </div>
+
+            <div class="font-sample">
+                <div class="font-label">Hachi Maru Pop (はちまるポップ)</div>
+                <div class="sample-text font-hachi">世界にデザインする力を - empower the world to design</div>
+            </div>
+
+            <div class="font-sample">
+                <div class="font-label">Potta One (ポッタ)</div>
+                <div class="sample-text font-potta">世界にデザインする力を - empower the world to design</div>
+            </div>
+
+            <div class="font-sample">
+                <div class="font-label">Reggae One (レゲエ)</div>
+                <div class="sample-text font-reggae">世界にデザインする力を - empower the world to design</div>
+            </div>
+
+            <div class="font-sample">
+                <div class="font-label">Train One (トレイン)</div>
+                <div class="sample-text font-train">世界にデザインする力を - empower the world to design</div>
+            </div>
+
+            <div class="font-sample">
+                <div class="font-label">New Tegomin (ニューテゴミン)</div>
+                <div class="sample-text font-tegomin">世界にデザインする力を - empower the world to design</div>
+            </div>
+
+            <div class="font-sample">
+                <div class="font-label">Rampart One (ランパート)</div>
+                <div class="sample-text font-rampart">世界にデザインする力を - empower the world to design</div>
+            </div>
+
+            <div class="font-sample">
+                <div class="font-label">Kaisei Tokumin (解星特民)</div>
+                <div class="sample-text font-kaisei-toku">世界にデザインする力を - empower the world to design</div>
+            </div>
+
+            <div class="font-sample">
+                <div class="font-label">Kaisei Opti (解星オプティ)</div>
+                <div class="sample-text font-kaisei-opti">世界にデザインする力を - empower the world to design</div>
+            </div>
+
+            <div class="font-sample">
+                <div class="font-label">Kaisei Decol (解星デコール)</div>
+                <div class="sample-text font-kaisei-decol">世界にデザインする力を - empower the world to design</div>
+            </div>
+
+            <div class="font-sample">
+                <div class="font-label">Kaisei HarunoUmi (解星春の海)</div>
+                <div class="sample-text font-kaisei-haruno">世界にデザインする力を - empower the world to design</div>
+            </div>
+
+            <!-- Korean Fonts -->
+            <div class="font-sample">
+                <div class="font-label">Noto Sans KR (한국어 고딕)</div>
+                <div class="sample-text font-noto-sans-kr">세상에 디자인할 힘을 - empower the world to design</div>
+            </div>
+
+            <div class="font-sample">
+                <div class="font-label">Noto Serif KR (한국어 명조)</div>
+                <div class="sample-text font-noto-serif-kr">세상에 디자인할 힘을 - empower the world to design</div>
+            </div>
+
+            <div class="font-sample">
+                <div class="font-label">Nanum Gothic (나눔고딕)</div>
+                <div class="sample-text font-nanum-gothic">세상에 디자인할 힘을 - empower the world to design</div>
+            </div>
+
+            <div class="font-sample">
+                <div class="font-label">Nanum Myeongjo (나눔명조)</div>
+                <div class="sample-text font-nanum-myeongjo">세상에 디자인할 힘을 - empower the world to design</div>
+            </div>
+
+            <div class="font-sample">
+                <div class="font-label">Nanum Brush Script (나눔붓)</div>
+                <div class="sample-text font-nanum-brush">세상에 디자인할 힘을 - empower the world to design</div>
+            </div>
+
+            <div class="font-sample">
+                <div class="font-label">Nanum Pen Script (나눔펜)</div>
+                <div class="sample-text font-nanum-pen">세상에 디자인할 힘을 - empower the world to design</div>
+            </div>
+
+            <div class="font-sample">
+                <div class="font-label">Black Han Sans (검은고딕)</div>
+                <div class="sample-text font-black-han">세상에 디자인할 힘을 - empower the world to design</div>
+            </div>
+
+            <div class="font-sample">
+                <div class="font-label">Stylish (스타일리시)</div>
+                <div class="sample-text font-stylish">세상에 디자인할 힘을 - empower the world to design</div>
+            </div>
+
+            <div class="font-sample">
+                <div class="font-label">Do Hyeon (도현체)</div>
+                <div class="sample-text font-do-hyeon">세상에 디자인할 힘을 - empower the world to design</div>
+            </div>
+
+            <div class="font-sample">
+                <div class="font-label">Jua (주아체)</div>
+                <div class="sample-text font-jua">세상에 디자인할 힘을 - empower the world to design</div>
+            </div>
+
+            <div class="font-sample">
+                <div class="font-label">Sunflower (해바라기)</div>
+                <div class="sample-text font-sunflower">세상에 디자인할 힘을 - empower the world to design</div>
+            </div>
+
+            <div class="font-sample">
+                <div class="font-label">Cute Font (귀여운 글꼴)</div>
+                <div class="sample-text font-cute">세상에 디자인할 힘을 - empower the world to design</div>
+            </div>
+
+            <div class="font-sample">
+                <div class="font-label">Poor Story (가난한 이야기)</div>
+                <div class="sample-text font-poor-story">세상에 디자인할 힘을 - empower the world to design</div>
+            </div>
+
+            <div class="font-sample">
+                <div class="font-label">Gamja Flower (감자꽃)</div>
+                <div class="sample-text font-gamja">세상에 디자인할 힘을 - empower the world to design</div>
+            </div>
+
+            <div class="font-sample">
+                <div class="font-label">East Sea Dokdo (동해독도)</div>
+                <div class="sample-text font-dokdo">세상에 디자인할 힘을 - empower the world to design</div>
+            </div>
+
+            <div class="font-sample">
+                <div class="font-label">Gaegu (개구체)</div>
+                <div class="sample-text font-gaegu">세상에 디자인할 힘을 - empower the world to design</div>
+            </div>
+
+            <div class="font-sample">
+                <div class="font-label">Single Day (싱글데이)</div>
+                <div class="sample-text font-single-day">세상에 디자인할 힘을 - empower the world to design</div>
+            </div>
+
+            <div class="font-sample">
+                <div class="font-label">Yeon Sung (연성체)</div>
+                <div class="sample-text font-yeon-sung">세상에 디자인할 힘을 - empower the world to design</div>
+            </div>
+
+            <div class="font-sample">
+                <div class="font-label">Dokdo (독도체)</div>
+                <div class="sample-text font-dokdo2">세상에 디자인할 힘을 - empower the world to design</div>
+            </div>
+
+            <div class="font-sample">
+                <div class="font-label">Hi Melody (하이멜로디)</div>
+                <div class="sample-text font-hi-melody">세상에 디자인할 힘을 - empower the world to design</div>
+            </div>
+
+            <div class="font-sample">
+                <div class="font-label">Gothic A1 (고딕A1)</div>
+                <div class="sample-text font-gothic-a1">세상에 디자인할 힘을 - empower the world to design</div>
+            </div>
+
+            <div class="font-sample">
+                <div class="font-label">Nanum Gothic Coding (나눔고딕코딩)</div>
+                <div class="sample-text font-nanum-coding">세상에 디자인할 힘을 - empower the world to design</div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
