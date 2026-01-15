@@ -95,14 +95,22 @@
         let navigationCount = 0;
         const STORAGE_KEY = 'autoTestNavigationCount';
         const MAX_COUNT_KEY = 'autoTestMaxCount';
+        const STARTED_KEY = 'autoTestStarted';
 
         // Get navigation count from sessionStorage
         const storedCount = sessionStorage.getItem(STORAGE_KEY);
         if (storedCount) {
             navigationCount = parseInt(storedCount, 10);
         }
-        navigationCount++;
-        sessionStorage.setItem(STORAGE_KEY, navigationCount.toString());
+
+        // Check if test has been started
+        const testStarted = sessionStorage.getItem(STARTED_KEY) === 'true';
+
+        // Only increment and auto-navigate if test has been started
+        if (testStarted) {
+            navigationCount++;
+            sessionStorage.setItem(STORAGE_KEY, navigationCount.toString());
+        }
 
         // Get max count from sessionStorage (default 50 if not set)
         let maxCount = sessionStorage.getItem(MAX_COUNT_KEY);
@@ -112,13 +120,15 @@
         }
         maxCount = parseInt(maxCount, 10);
 
-        console.log('Navigation count:', navigationCount, '/', maxCount);
+        console.log('Navigation count:', navigationCount, '/', maxCount, '| Test started:', testStarted);
 
         // Update counter display
         window.addEventListener('load', function() {
             const counterElement = document.querySelector('.counter');
             const maxCountElement = document.querySelector('.max-count');
             const loopSelect = document.querySelector('#loop-count');
+            const startButton = document.querySelector('#start-button');
+            const statusElement = document.querySelector('.status');
 
             if (counterElement) {
                 counterElement.textContent = navigationCount;
@@ -130,12 +140,40 @@
                 loopSelect.value = maxCount;
             }
 
+            // If test hasn't started, show start button
+            if (!testStarted) {
+                if (startButton) {
+                    startButton.style.display = 'inline-block';
+                }
+                if (statusElement) {
+                    statusElement.textContent = 'Ready to Start';
+                }
+                return;
+            }
+
+            // Hide start button when test is running
+            if (startButton) {
+                startButton.style.display = 'none';
+            }
+
             // Check if we've reached the max count
             if (navigationCount >= maxCount) {
                 console.log('Max count reached! Stopping auto-navigation.');
-                document.querySelector('.status').textContent = 'Loop Completed!';
-                document.querySelector('.status').style.color = '#28a745';
+                sessionStorage.removeItem(STARTED_KEY);
+                if (statusElement) {
+                    statusElement.textContent = 'Loop Completed!';
+                    statusElement.style.color = '#28a745';
+                }
+                if (startButton) {
+                    startButton.style.display = 'inline-block';
+                    startButton.textContent = 'Restart Test';
+                }
                 return;
+            }
+
+            // Test is running
+            if (statusElement) {
+                statusElement.textContent = 'Navigation Loop Active';
             }
 
             // Navigate to Page B after 1 second
@@ -146,6 +184,13 @@
             }, 1000);
         });
 
+        function startTest() {
+            console.log('Starting test...');
+            sessionStorage.setItem(STARTED_KEY, 'true');
+            sessionStorage.setItem(STORAGE_KEY, '0');
+            window.location.reload();
+        }
+
         function updateMaxCount() {
             const loopSelect = document.querySelector('#loop-count');
             const newMaxCount = loopSelect.value;
@@ -155,6 +200,7 @@
         }
 
         function resetCounter() {
+            sessionStorage.removeItem(STARTED_KEY);
             sessionStorage.setItem(STORAGE_KEY, '0');
             console.log('Counter reset');
             window.location.reload();
@@ -166,7 +212,7 @@
         <h1>Auto Memory Test</h1>
         <div class="badge pageA">Page A</div>
 
-        <div class="status">Navigation Loop Active</div>
+        <div class="status">Ready to Start</div>
         <div class="counter">0</div>
         <div style="margin: 10px 0; color: #999; font-size: 16px;">
             / <span class="max-count">50</span> navigations
@@ -185,9 +231,13 @@
             </select>
         </div>
 
+        <button id="start-button" onclick="startTest()" style="display: inline-block; margin: 20px 0; padding: 15px 40px; background: #667eea; color: white; border: none; border-radius: 8px; font-size: 18px; font-weight: 700; cursor: pointer; box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3); transition: transform 0.2s, box-shadow 0.2s;">
+            🚀 Start Test
+        </button>
+
         <p style="margin: 20px 0; color: #666; font-size: 14px;">
-            This page will automatically navigate to the heavy font page in 1 second,<br>
-            which will then navigate back here, creating a continuous loop.<br>
+            Click "Start Test" to begin the automatic navigation loop.<br>
+            The page will navigate to the heavy font page and back continuously.<br>
             The loop will stop after reaching the maximum count.
         </p>
 
