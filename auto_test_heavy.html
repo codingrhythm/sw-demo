@@ -491,15 +491,35 @@
 
         console.log('Service Worker enabled:', swEnabled);
 
-        // Register service worker if enabled
-        if (swEnabled && 'serviceWorker' in navigator) {
-            navigator.serviceWorker.register('sw.js')
-                .then(function(registration) {
-                    console.log('[SW] Service Worker registered successfully:', registration);
-                })
-                .catch(function(error) {
-                    console.error('[SW] Service Worker registration failed:', error);
+        // Register or unregister service worker based on setting
+        if ('serviceWorker' in navigator) {
+            if (swEnabled) {
+                navigator.serviceWorker.register('sw.js')
+                    .then(function(registration) {
+                        console.log('[SW] Service Worker registered successfully:', registration);
+                    })
+                    .catch(function(error) {
+                        console.error('[SW] Service Worker registration failed:', error);
+                    });
+            } else {
+                // Unregister service worker if it was previously registered
+                navigator.serviceWorker.getRegistrations().then(function(registrations) {
+                    if (registrations.length > 0) {
+                        console.log('[SW] Unregistering', registrations.length, 'service worker(s)');
+                        registrations.forEach(function(registration) {
+                            registration.unregister().then(function(success) {
+                                if (success) {
+                                    console.log('[SW] Service Worker unregistered successfully');
+                                } else {
+                                    console.log('[SW] Service Worker unregistration failed');
+                                }
+                            });
+                        });
+                    } else {
+                        console.log('[SW] No service workers to unregister');
+                    }
                 });
+            }
         } else if (swEnabled) {
             console.warn('[SW] Service Worker API not available in this browser');
         }
