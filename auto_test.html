@@ -96,6 +96,7 @@
         const STORAGE_KEY = 'autoTestNavigationCount';
         const MAX_COUNT_KEY = 'autoTestMaxCount';
         const STARTED_KEY = 'autoTestStarted';
+        const SW_ENABLED_KEY = 'autoTestSWEnabled';
 
         // Get navigation count from sessionStorage
         const storedCount = sessionStorage.getItem(STORAGE_KEY);
@@ -129,6 +130,8 @@
             const loopSelect = document.querySelector('#loop-count');
             const startButton = document.querySelector('#start-button');
             const statusElement = document.querySelector('.status');
+            const swCheckbox = document.querySelector('#sw-enabled');
+            const swStatusElement = document.querySelector('#sw-status');
 
             if (counterElement) {
                 counterElement.textContent = navigationCount;
@@ -139,6 +142,13 @@
             if (loopSelect) {
                 loopSelect.value = maxCount;
             }
+
+            // Load service worker setting
+            const swEnabled = sessionStorage.getItem(SW_ENABLED_KEY) === 'true';
+            if (swCheckbox) {
+                swCheckbox.checked = swEnabled;
+            }
+            updateSWStatus();
 
             // If test hasn't started, show start button
             if (!testStarted) {
@@ -205,6 +215,29 @@
             console.log('Counter reset');
             window.location.reload();
         }
+
+        function toggleServiceWorker() {
+            const swCheckbox = document.querySelector('#sw-enabled');
+            const enabled = swCheckbox.checked;
+            sessionStorage.setItem(SW_ENABLED_KEY, enabled.toString());
+            console.log('Service Worker', enabled ? 'enabled' : 'disabled');
+            updateSWStatus();
+        }
+
+        function updateSWStatus() {
+            const swStatusElement = document.querySelector('#sw-status');
+            const swEnabled = sessionStorage.getItem(SW_ENABLED_KEY) === 'true';
+
+            if (swStatusElement) {
+                if (swEnabled) {
+                    swStatusElement.textContent = '✓ Service Worker will be registered on heavy font page';
+                    swStatusElement.style.color = '#28a745';
+                } else {
+                    swStatusElement.textContent = '✗ Service Worker disabled';
+                    swStatusElement.style.color = '#999';
+                }
+            }
+        }
     </script>
 </head>
 <body>
@@ -229,6 +262,14 @@
                 <option value="500">500 loops</option>
                 <option value="1000">1000 loops</option>
             </select>
+        </div>
+
+        <div style="margin: 20px 0; padding: 15px; background: #f8f9fa; border-radius: 8px; border: 2px solid #667eea;">
+            <label style="display: flex; align-items: center; justify-content: center; cursor: pointer; user-select: none;">
+                <input type="checkbox" id="sw-enabled" onchange="toggleServiceWorker()" style="width: 20px; height: 20px; margin-right: 10px; cursor: pointer;">
+                <span style="color: #333; font-size: 16px; font-weight: 600;">Enable Service Worker</span>
+            </label>
+            <div id="sw-status" style="margin-top: 10px; font-size: 12px; color: #666; text-align: center;"></div>
         </div>
 
         <button id="start-button" onclick="startTest()" style="display: inline-block; margin: 20px 0; padding: 15px 40px; background: #667eea; color: white; border: none; border-radius: 8px; font-size: 18px; font-weight: 700; cursor: pointer; box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3); transition: transform 0.2s, box-shadow 0.2s;">

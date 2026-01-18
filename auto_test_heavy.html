@@ -485,6 +485,25 @@
         // Auto test - navigate back to auto_test.html after page load
         console.log('Auto Test Heavy Fonts page loaded (Page B)');
 
+        // Check if service worker should be registered
+        const SW_ENABLED_KEY = 'autoTestSWEnabled';
+        const swEnabled = sessionStorage.getItem(SW_ENABLED_KEY) === 'true';
+
+        console.log('Service Worker enabled:', swEnabled);
+
+        // Register service worker if enabled
+        if (swEnabled && 'serviceWorker' in navigator) {
+            navigator.serviceWorker.register('sw.js')
+                .then(function(registration) {
+                    console.log('Service Worker registered successfully:', registration);
+                })
+                .catch(function(error) {
+                    console.error('Service Worker registration failed:', error);
+                });
+        } else if (swEnabled) {
+            console.warn('Service Worker API not available in this browser');
+        }
+
         window.addEventListener('load', function() {
             console.log('Page B fully loaded, will navigate back to Page A shortly...');
 
