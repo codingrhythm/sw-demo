@@ -495,13 +495,13 @@
         if (swEnabled && 'serviceWorker' in navigator) {
             navigator.serviceWorker.register('sw.js')
                 .then(function(registration) {
-                    console.log('Service Worker registered successfully:', registration);
+                    console.log('[SW] Service Worker registered successfully:', registration);
                 })
                 .catch(function(error) {
-                    console.error('Service Worker registration failed:', error);
+                    console.error('[SW] Service Worker registration failed:', error);
                 });
         } else if (swEnabled) {
-            console.warn('Service Worker API not available in this browser');
+            console.warn('[SW] Service Worker API not available in this browser');
         }
 
         window.addEventListener('load', function() {
