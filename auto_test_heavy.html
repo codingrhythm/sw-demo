@@ -507,11 +507,19 @@
         window.addEventListener('load', function() {
             console.log('Page B fully loaded, will navigate back to Page A shortly...');
 
+            // Get current navigation count to determine delay
+            const navigationCount = parseInt(sessionStorage.getItem('autoTestNavigationCount') || '0', 10);
+
+            // Use longer delay (5 seconds) for first loop, shorter (1 second) for subsequent loops
+            const delay = (navigationCount === 1) ? 5000 : 1000;
+
+            console.log('Navigation count:', navigationCount, '| Delay:', delay + 'ms');
+
             // Navigate back to auto_test.html after fonts are loaded
             setTimeout(function() {
                 console.log('Navigating back to auto_test.html');
                 window.location.href = 'auto_test.html';
-            }, 1000);
+            }, delay);
         });
     </script>
 </head>
