@@ -6,7 +6,9 @@
 ## Comparative Analysis of Memory Usage with and without Service Worker
 
 **Date:** January 20, 2026
+
 **Platform:** iOS (arm64)
+
 **Analysis:** WebKit WebContent Process Memory Consumption
 
 ---
