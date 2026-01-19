@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Canva Fonts Memory Test</title>
+    <title>Canva Fonts Memory Test (SW Toggle)</title>
 
     <!-- Load fonts from Canva CDN -->
     <style>
@@ -508,33 +508,243 @@
             text-transform: uppercase;
             margin-left: 8px;
         }
-    </style>
-    <script>
-        // Register service worker
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('sw.js')
-                .then(registration => {
-                    console.log('Service Worker registered with scope:', registration.scope);
-                })
-                .catch(error => {
-                    console.error('Service Worker registration failed:', error);
-                });
+
+        .sw-control {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            z-index: 1001;
+            min-width: 280px;
         }
-    </script>
+
+        .sw-control h3 {
+            margin: 0 0 15px 0;
+            font-family: 'Canva Sans', sans-serif;
+            font-size: 14px;
+            font-weight: 700;
+            color: #333;
+        }
+
+        .sw-status {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            font-size: 12px;
+        }
+
+        .status-indicator {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+
+        .status-indicator.active {
+            background: #00C4CC;
+            animation: pulse 2s infinite;
+        }
+
+        .status-indicator.inactive {
+            background: #999;
+        }
+
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 30px;
+        }
+
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 30px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 22px;
+            width: 22px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider {
+            background-color: #7B3FF2;
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(30px);
+        }
+
+        .sw-toggle-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .sw-toggle-label {
+            font-size: 13px;
+            font-weight: 600;
+            color: #333;
+        }
+    </style>
     <script src="app.js"></script>
+    <script>
+        // Service Worker Control Logic
+        const SW_ENABLED_KEY = 'sw-enabled';
+
+        async function updateSWStatus() {
+            const statusText = document.getElementById('swStatusText');
+            const statusIndicator = document.getElementById('swStatusIndicator');
+            const toggle = document.getElementById('swToggle');
+
+            if (!('serviceWorker' in navigator)) {
+                statusText.textContent = 'Service Worker not supported';
+                statusIndicator.className = 'status-indicator inactive';
+                toggle.disabled = true;
+                return;
+            }
+
+            const registration = await navigator.serviceWorker.getRegistration();
+            const swEnabled = localStorage.getItem(SW_ENABLED_KEY) === 'true';
+
+            toggle.checked = swEnabled;
+
+            if (registration && registration.active) {
+                statusText.textContent = 'Active & Running';
+                statusIndicator.className = 'status-indicator active';
+            } else if (swEnabled) {
+                statusText.textContent = 'Enabled (pending)';
+                statusIndicator.className = 'status-indicator inactive';
+            } else {
+                statusText.textContent = 'Disabled';
+                statusIndicator.className = 'status-indicator inactive';
+            }
+        }
+
+        async function toggleServiceWorker(enable) {
+            if (!('serviceWorker' in navigator)) {
+                alert('Service Worker is not supported in this browser');
+                return;
+            }
+
+            if (enable) {
+                // Enable Service Worker
+                localStorage.setItem(SW_ENABLED_KEY, 'true');
+                try {
+                    const registration = await navigator.serviceWorker.register('sw.js');
+                    console.log('Service Worker registered with scope:', registration.scope);
+                    // Reload the page to activate the service worker
+                    window.location.reload();
+                } catch (error) {
+                    console.error('Service Worker registration failed:', error);
+                    alert('Failed to register Service Worker: ' + error.message);
+                    localStorage.setItem(SW_ENABLED_KEY, 'false');
+                }
+            } else {
+                // Disable Service Worker
+                localStorage.setItem(SW_ENABLED_KEY, 'false');
+                try {
+                    const registration = await navigator.serviceWorker.getRegistration();
+                    if (registration) {
+                        await registration.unregister();
+                        console.log('Service Worker unregistered');
+                    }
+                    // Reload the page to complete the unregistration
+                    window.location.reload();
+                } catch (error) {
+                    console.error('Service Worker unregistration failed:', error);
+                    alert('Failed to unregister Service Worker: ' + error.message);
+                }
+            }
+        }
+
+        // Initialize Service Worker based on stored preference
+        async function initServiceWorker() {
+            const swEnabled = localStorage.getItem(SW_ENABLED_KEY) === 'true';
+
+            if (swEnabled && 'serviceWorker' in navigator) {
+                try {
+                    const registration = await navigator.serviceWorker.register('sw.js');
+                    console.log('Service Worker auto-registered with scope:', registration.scope);
+                } catch (error) {
+                    console.error('Service Worker auto-registration failed:', error);
+                }
+            }
+
+            // Update status after initialization
+            await updateSWStatus();
+        }
+
+        // Handle toggle change
+        function handleToggleChange(event) {
+            toggleServiceWorker(event.target.checked);
+        }
+
+        // Initialize when DOM is ready
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initServiceWorker);
+        } else {
+            initServiceWorker();
+        }
+
+        // Update status periodically
+        setInterval(updateSWStatus, 2000);
+    </script>
 </head>
 <body>
     <div class="nav-buttons">
         <a href="index.html" class="nav-btn">← Home</a>
     </div>
 
-    <div class="stats">
+    <div class="sw-control">
+        <h3>Service Worker Control</h3>
+        <div class="sw-status">
+            <span class="status-indicator inactive" id="swStatusIndicator"></span>
+            <span id="swStatusText">Checking...</span>
+        </div>
+        <div class="sw-toggle-row">
+            <span class="sw-toggle-label">Enable Service Worker</span>
+            <label class="toggle-switch">
+                <input type="checkbox" id="swToggle" onchange="handleToggleChange(event)">
+                <span class="slider"></span>
+            </label>
+        </div>
+    </div>
+
+    <div class="stats" style="top: 160px;">
         <div><strong>Design Canvas Stats</strong></div>
         <div><span class="memory-indicator"></span>Elements: <strong id="elementCount">0</strong></div>
     </div>
 
     <div class="container">
-        <h1>Design Studio Canvas <span class="badge">With SW</span></h1>
+        <h1>Design Studio Canvas <span class="badge">Memory Test</span></h1>
 
         <!-- Design Canvas Area -->
         <div class="design-canvas" id="designCanvas">
