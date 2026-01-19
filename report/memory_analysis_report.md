@@ -1,4 +1,8 @@
 # WebKit Memory Analysis: Service Worker Impact on iOS
+
+> [!NOTE]
+> This is an AI-generated report analyzing WebKit memory consumption patterns on iOS, comparing scenarios with and without Service Worker enabled.
+
 ## Comparative Analysis of Memory Usage with and without Service Worker
 
 **Date:** January 20, 2026
@@ -11,13 +15,13 @@
 
 This report analyzes memory consumption patterns of WebKit WebContent processes on iOS, comparing scenarios with and without Service Worker (SW) enabled.
 
-### Key Findings:
+### Key Findings
 
-**✅ NO continuous memory leak detected** - Memory stabilizes after initial activity
-**⚠️ Service Worker increases baseline memory by ~40%** (550 MiB vs 400 MiB)
-**⚠️ Service Worker shows higher peak memory usage** (1.47 GiB vs 630 MiB)
-**✅ Garbage collection is working** in both scenarios
-**⚠️ SW process exhibits periodic memory spikes** that may trigger iOS memory warnings
+- ✅ **NO continuous memory leak detected** - Memory stabilizes after initial activity
+- ⚠️ **Service Worker increases baseline memory by ~40%** (550 MiB vs 400 MiB)
+- ⚠️ **Service Worker shows higher peak memory usage** (1.47 GiB vs 630 MiB)
+- ✅ **Garbage collection is working** in both scenarios
+- ⚠️ **SW process exhibits periodic memory spikes** that may trigger iOS memory warnings
 
 ---
 
@@ -64,7 +68,8 @@ This report analyzes memory consumption patterns of WebKit WebContent processes 
 - Brief activity spikes: 6-35% (GC events)
 
 ### Memory Pattern Visualization
-```
+
+```text
 Memory (MiB)
 700 |
 600 |     ●
@@ -118,7 +123,8 @@ Pattern: Load → Peak → Drop → Stabilize
 - Frequent spikes: 40-110% (much more frequent)
 
 ### Memory Pattern Visualization
-```
+
+```text
 Memory (MiB)
 1,500 |       ●
 1,400 |       │
@@ -505,8 +511,8 @@ The Service Worker implementation does NOT have a memory leak, but the high peak
 - Metrics collected: Memory, CPU %, threads, cumulative CPU time
 
 **File References:**
-- Baseline (no SW): `no_sw_process_metrics` (73 data points, 0:08-1:22)
-- Service Worker: `sw_process_metrics` (100 data points, 0:03-1:44)
+- Baseline (no SW): [no_sw_process_metrics.txt](no_sw_process_metrics.txt) (73 data points, 0:08-1:22)
+- Service Worker: [sw_process_metrics.txt](sw_process_metrics.txt) (100 data points, 0:03-1:44)
 
 ### Column Definitions
 
