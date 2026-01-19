@@ -613,6 +613,79 @@
             font-weight: 600;
             color: #333;
         }
+
+        .element-control {
+            position: fixed;
+            top: 160px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            z-index: 1001;
+            min-width: 280px;
+        }
+
+        .element-control h3 {
+            margin: 0 0 15px 0;
+            font-family: 'Canva Sans', sans-serif;
+            font-size: 14px;
+            font-weight: 700;
+            color: #333;
+        }
+
+        .element-count-display {
+            text-align: center;
+            font-size: 32px;
+            font-weight: 700;
+            color: #7B3FF2;
+            margin: 15px 0;
+            font-family: 'Canva Sans', sans-serif;
+        }
+
+        .element-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .element-btn {
+            flex: 1;
+            padding: 12px 20px;
+            background: #7B3FF2;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .element-btn:hover {
+            background: #6330c8;
+            transform: translateY(-2px);
+        }
+
+        .element-btn:active {
+            transform: translateY(0);
+        }
+
+        .element-btn.decrease {
+            background: #ff4757;
+        }
+
+        .element-btn.decrease:hover {
+            background: #e84118;
+        }
+
+        .element-info {
+            font-size: 12px;
+            color: #666;
+            text-align: center;
+            margin-top: 10px;
+        }
     </style>
     <script src="app.js"></script>
     <script>
@@ -716,6 +789,47 @@
 
         // Update status periodically
         setInterval(updateSWStatus, 2000);
+
+        // Element Count Management
+        const ELEMENT_COUNT_KEY = 'target-element-count';
+        let targetElementCount = parseInt(localStorage.getItem(ELEMENT_COUNT_KEY) || '100');
+
+        function updateTargetDisplay() {
+            const display = document.getElementById('targetElementCount');
+            if (display) {
+                display.textContent = targetElementCount;
+            }
+        }
+
+        function increaseElements() {
+            targetElementCount += 50;
+            localStorage.setItem(ELEMENT_COUNT_KEY, targetElementCount.toString());
+            updateTargetDisplay();
+            adjustCanvasElements();
+        }
+
+        function decreaseElements() {
+            targetElementCount = Math.max(0, targetElementCount - 50);
+            localStorage.setItem(ELEMENT_COUNT_KEY, targetElementCount.toString());
+            updateTargetDisplay();
+            adjustCanvasElements();
+        }
+
+        function adjustCanvasElements() {
+            // This function will be called from app.js after it loads
+            if (window.adjustElementsToTarget) {
+                window.adjustElementsToTarget(targetElementCount);
+            }
+        }
+
+        // Initialize target display when DOM is ready
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', function() {
+                updateTargetDisplay();
+            });
+        } else {
+            updateTargetDisplay();
+        }
     </script>
 </head>
 <body>
@@ -738,9 +852,19 @@
         </div>
     </div>
 
-    <div class="stats" style="top: 160px;">
+    <div class="element-control">
+        <h3>Canvas Elements</h3>
+        <div class="element-count-display" id="targetElementCount">100</div>
+        <div class="element-info">Target element count</div>
+        <div class="element-buttons">
+            <button class="element-btn decrease" onclick="decreaseElements()">-50</button>
+            <button class="element-btn" onclick="increaseElements()">+50</button>
+        </div>
+    </div>
+
+    <div class="stats" style="top: 340px;">
         <div><strong>Design Canvas Stats</strong></div>
-        <div><span class="memory-indicator"></span>Elements: <strong id="elementCount">0</strong></div>
+        <div><span class="memory-indicator"></span>Current: <strong id="elementCount">0</strong></div>
     </div>
 
     <div class="container">

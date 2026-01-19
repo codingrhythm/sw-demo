@@ -122,8 +122,12 @@ function updateStats() {
 function initializeCanvas() {
     console.log('Initializing design canvas...');
 
-    // Add elements upfront to simulate a busy design (100 elements)
-    for (let i = 0; i < 100; i++) {
+    // Get target count from localStorage or use default
+    const ELEMENT_COUNT_KEY = 'target-element-count';
+    const targetCount = parseInt(localStorage.getItem(ELEMENT_COUNT_KEY) || '100');
+
+    // Add elements upfront to simulate a busy design
+    for (let i = 0; i < targetCount; i++) {
         setTimeout(() => {
             if (Math.random() > 0.4) {
                 addImageToCanvas();
@@ -133,6 +137,45 @@ function initializeCanvas() {
         }, i * 50);
     }
 }
+
+// Adjust elements to match target count
+function adjustElementsToTarget(targetCount) {
+    const currentCount = elementCounter;
+
+    if (targetCount > currentCount) {
+        // Add more elements
+        const toAdd = targetCount - currentCount;
+        console.log(`Adding ${toAdd} elements to reach target of ${targetCount}`);
+
+        for (let i = 0; i < toAdd; i++) {
+            setTimeout(() => {
+                if (Math.random() > 0.4) {
+                    addImageToCanvas();
+                } else {
+                    addTextToCanvas();
+                }
+            }, i * 30);
+        }
+    } else if (targetCount < currentCount) {
+        // Remove elements
+        const toRemove = currentCount - targetCount;
+        console.log(`Removing ${toRemove} elements to reach target of ${targetCount}`);
+
+        for (let i = 0; i < toRemove; i++) {
+            if (elements.length > 0) {
+                const elementToRemove = elements.pop();
+                if (elementToRemove && elementToRemove.parentNode) {
+                    elementToRemove.parentNode.removeChild(elementToRemove);
+                }
+                elementCounter--;
+            }
+        }
+        updateStats();
+    }
+}
+
+// Expose function globally for use by HTML
+window.adjustElementsToTarget = adjustElementsToTarget;
 
 // Make elements draggable
 function setupDraggableElements() {
