@@ -8,11 +8,7 @@ const images = [
 
 const fonts = [
     { name: 'Canva Sans', class: 'font-canva-sans' },
-    { name: 'Canva Sans Regular', class: 'font-canva-sans-regular' },
-    { name: 'Canva Sans Light', class: 'font-canva-sans-light' },
-    { name: 'Heavy Font 1', class: 'font-heavy-1' },
-    { name: 'Heavy Font 2', class: 'font-heavy-2' },
-    { name: 'Heavy Font 3', class: 'font-heavy-3' },
+    { name: 'Canva Sans Extra', class: 'font-canva-extra' },
     { name: 'HelloFont ChuYuan 65', class: 'font-chuyuan-65' },
     { name: 'HelloFont CangLan', class: 'font-canglan' },
     { name: 'MaShanZheng', class: 'font-mashanzheng' },
@@ -21,7 +17,16 @@ const fonts = [
     { name: 'SourceHanSerif SC', class: 'font-sourcehan' },
     { name: 'ZCOOLXiaoWei', class: 'font-zcool' },
     { name: 'LiuJianMaoCao', class: 'font-liujian' },
-    { name: 'ZhiMangXing', class: 'font-zhimang' }
+    { name: 'ZhiMangXing', class: 'font-zhimang' },
+    { name: 'Bold Regular', class: 'font-bold-regular' },
+    { name: 'Heavy Regular', class: 'font-heavy-regular' },
+    { name: 'HelloFont ChuYuan 75', class: 'font-chuyuan-75' },
+    { name: 'HelloFont ChuYuan 45', class: 'font-chuyuan-45' },
+    { name: 'HelloFont FangZhuan 35', class: 'font-fangzhuan-35' },
+    { name: 'HelloFont LieHei 65', class: 'font-liehei-65' },
+    { name: 'HelloFont LingLong', class: 'font-linglong' },
+    { name: 'IwaTxt Eb', class: 'font-iwatxt-eb' },
+    { name: 'IwaTxt Bd', class: 'font-iwatxt-bd' }
 ];
 
 const textSamples = [
