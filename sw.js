@@ -10,4 +10,5 @@ self.addEventListener('activate', function(e) {
 
 self.addEventListener('fetch', function(e) {
     console.log('[SW] fetch');
+    e.respondWith(self.fetch(e.request));
 });
