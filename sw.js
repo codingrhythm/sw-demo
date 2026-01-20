@@ -6,6 +6,7 @@ self.addEventListener('install', function(e) {
 
 self.addEventListener('activate', function(e) {
     console.log('[SW] activated');
+    e.waitUntil(self.clients.claim());
 });
 
 self.addEventListener('fetch', function(e) {

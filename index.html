@@ -646,8 +646,29 @@
                     const registration = await navigator.serviceWorker.register(swScript);
                     console.log('Service Worker registered with scope:', registration.scope);
                     console.log('Service Worker script:', swScript);
-                    // Reload the page to activate the service worker
-                    window.location.reload();
+
+                    // Wait for the service worker to become active
+                    if (registration.installing) {
+                        console.log('Service Worker installing, waiting for activation...');
+                        await new Promise((resolve) => {
+                            registration.installing.addEventListener('statechange', function(e) {
+                                if (e.target.state === 'activated') {
+                                    console.log('Service Worker activated immediately');
+                                    resolve();
+                                }
+                            });
+                        });
+                    } else if (registration.waiting) {
+                        console.log('Service Worker waiting, attempting to activate...');
+                        registration.waiting.postMessage({ type: 'SKIP_WAITING' });
+                        await new Promise((resolve) => {
+                            navigator.serviceWorker.addEventListener('controllerchange', resolve, { once: true });
+                        });
+                    } else if (registration.active) {
+                        console.log('Service Worker already active');
+                    }
+
+                    await updateSWStatus();
                 } catch (error) {
                     console.error('Service Worker registration failed:', error);
                     alert('Failed to register Service Worker: ' + error.message);
