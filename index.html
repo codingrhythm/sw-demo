@@ -3,9 +3,219 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Memory Test Home</title>
+    <title>Canva Fonts Memory Test</title>
 
+    <!-- Load fonts from Canva CDN -->
     <style>
+        /* Canva font faces - Using actual working Canva font URLs */
+        @font-face {
+            font-family: 'Canva Sans';
+            src: url('https://static.canva.com/web/images/b46630e470f4040eba7033cf2435edce.woff') format('woff');
+            font-weight: 700;
+            font-style: normal;
+        }
+
+        /* Additional Canva Font URLs */
+        @font-face {
+            font-family: 'Canva Sans Extra';
+            src: url('https://static.canva.com/web/images/cff149ee1e9d2be50ac77bcd86769d05.woff2') format('woff2');
+        }
+
+        @font-face {
+            font-family: 'HelloFont ChuYuan 65';
+            src: url('https://font-public.canva.com/YAGhlAYFTZ0/0/HelloFont_ID_ChuYuan_65.d28853f79714c84d.8860208c-0b8f-4ef2-b630-3640de033c23.woff2') format('woff2');
+        }
+
+        @font-face {
+            font-family: 'HelloFont CangLan';
+            src: url('https://font-public.canva.com/YAGDT67TxTc/0/HelloFont_ID_CangLan.325fed51269cde09975.45c8cee5-09bd-4d43-b688-fd892718c2c6.woff2') format('woff2');
+        }
+
+        @font-face {
+            font-family: 'Bold Regular';
+            src: url('https://font-public.canva.com/YADLvZSPqp0/0/bold-regular15630572701012638816.f3c622c60968584f9701ce597aa43bdd.woff2') format('woff2');
+        }
+
+        @font-face {
+            font-family: 'HGSSOeiio';
+            src: url('https://font-public.canva.com/YAGLZyIpZ_E/0/hgssoeiiorishotai.d0879d9e4c836fa6127f92.68145ea5-a2bb-4735-b318-d94cabae5468.woff2') format('woff2');
+        }
+
+        @font-face {
+            font-family: 'Regular 12558';
+            src: url('https://font-public.canva.com/YADLvZJ2vVw/0/regular12558877269481388539.0f42b3feecca5dd28d6972fbd1ab78f7.woff2') format('woff2');
+        }
+
+        @font-face {
+            font-family: 'Heavy Regular';
+            src: url('https://font-public.canva.com/YADLvcsl_vY/0/heavy-regular6635533839421649640.b6eb033d439c6ddafd9f04ff8d658799.woff2') format('woff2');
+        }
+
+        @font-face {
+            font-family: 'MaShanZheng';
+            src: url('https://font-public.canva.com/YAD1b3yES34/0/MaShanZheng-Regular.bab6ac24df53ff1f8a3d.4942dde064c33c2cb5bc6fb9f11858d7.woff2') format('woff2');
+        }
+
+        @font-face {
+            font-family: 'HelloFont 03c668';
+            src: url('https://font-public.canva.com/YAGhlGvtq3M/0/03c66804-79e4-423c-a886-5399d1e10cf71827.daa67914-3f81-46a4-8716-456381f6429c.woff2') format('woff2');
+        }
+
+        @font-face {
+            font-family: 'HelloFont c29980';
+            src: url('https://font-public.canva.com/YAGhlD7xYcE/0/c2998041-5b0d-46b4-a461-9274d8ded14e6931.6bdb230a-148d-4967-acb4-589861091bec.woff2') format('woff2');
+        }
+
+        @font-face {
+            font-family: 'Regular 2675';
+            src: url('https://font-public.canva.com/YADLvf6ctXA/0/regular2675224844383880860.a558a374317ef7e91717f575392580f2.woff2') format('woff2');
+        }
+
+        @font-face {
+            font-family: 'HelloFont MoQu';
+            src: url('https://font-public.canva.com/YAF9OJxjJa8/0/HelloFont_ID_MoQu.95780b9856dd5c89ac76e2.09af6d21-7080-46a6-acaa-0424a98299ec.woff2') format('woff2');
+        }
+
+        @font-face {
+            font-family: 'HelloFont 7266ba';
+            src: url('https://font-public.canva.com/YAGhlD7xYcE/0/7266ba1a-2b5e-4763-a7d6-b2d41eecba766755.b45bdd5b-362c-416e-ba3d-97cbadf05282.woff2') format('woff2');
+        }
+
+        @font-face {
+            font-family: 'Font FB 17';
+            src: url('https://font-public.canva.com/_fb/0/17.woff2') format('woff2');
+        }
+
+        @font-face {
+            font-family: 'HelloFont ChuYuan 25';
+            src: url('https://font-public.canva.com/YAGhlAYFTZ0/0/HelloFont_ID_ChuYuan_25.e491e60eae14ca6b.93e2bacc-6583-4ebb-b252-7fcf364a8372.woff2') format('woff2');
+        }
+
+        @font-face {
+            font-family: 'HelloFont ef0965';
+            src: url('https://font-public.canva.com/YAGhlNolV8g/0/ef0965a9-7f95-4f4b-90d8-bb24708f22551194.f1a8a1e4-8875-4ce9-8045-98a1f0afd5c0.woff2') format('woff2');
+        }
+
+        @font-face {
+            font-family: 'HelloFont ChuYuan 75';
+            src: url('https://font-public.canva.com/YAGhlAYFTZ0/0/HelloFont_ID_ChuYuan_75.f8679beb1fa8a6ec.cef409bb-1b16-4f89-a5b2-ed5e714b064a.woff2') format('woff2');
+        }
+
+        @font-face {
+            font-family: 'HelloFont FangZhuan 35';
+            src: url('https://font-public.canva.com/YAGhlNolV8g/0/HelloFont_ID_FangZhuan_35891946886624030.fc6975cc-90a6-4b17-b220-3550b0fca454.woff2') format('woff2');
+        }
+
+        @font-face {
+            font-family: 'HelloFont LieHei 65';
+            src: url('https://font-public.canva.com/YAGhlD7xYcE/0/HelloFont_ID_LieHei_65104692860393527663.8e7f6316-8826-4143-a96b-7eb846e5975a.woff2') format('woff2');
+        }
+
+        @font-face {
+            font-family: 'HelloFont FangZhuan 45';
+            src: url('https://font-public.canva.com/YAGhlNolV8g/0/HelloFont_ID_FangZhuan_45172510323534539.ee0cf32c-3189-4981-981b-c251fb01ed69.woff2') format('woff2');
+        }
+
+        @font-face {
+            font-family: 'HelloFont LieHei 45';
+            src: url('https://font-public.canva.com/YAGhlD7xYcE/0/HelloFont_ID_LieHei_45942289626916416464.b165f523-3c23-4289-935c-a7bbad8c5c56.woff2') format('woff2');
+        }
+
+        @font-face {
+            font-family: 'LongCang';
+            src: url('https://font-public.canva.com/YAD1bzoN9BU/0/LongCang-Regular.1fd7ba52cd10f52cd6fde48.e47acc18e326662d9e9c41cfbf952d89.woff2') format('woff2');
+        }
+
+        @font-face {
+            font-family: 'HelloFont ChuYuan 45';
+            src: url('https://font-public.canva.com/YAGhlAYFTZ0/0/HelloFont_ID_ChuYuan_45.73adf85b72d76d2e.b58d8f68-8f04-49ef-85a3-7a851c2dad5a.woff2') format('woff2');
+        }
+
+        @font-face {
+            font-family: 'HelloFont LingLong';
+            src: url('https://font-public.canva.com/YAGDUI7Jzgg/0/HelloFont_ID_LingLong.0588339f38e93d666b.0bb5dfce-41dd-4e66-af06-b41f68dc1f30.woff2') format('woff2');
+        }
+
+        @font-face {
+            font-family: 'IwaTxt Eb';
+            src: url('https://font-public.canva.com/YAGLZ0QzLYI/0/IwaTxtStd-Eb.ba5e7e2b405a22d303df53c3307.e0dcb5a3-4ac4-4c5f-b13e-82ab43f8c16b.woff2') format('woff2');
+        }
+
+        @font-face {
+            font-family: 'SourceHanSerif SC';
+            src: url('https://font-public.canva.com/YAFmnGiJgeQ/0/SourceHanSerifSC-Regular.fed1b1c9635f197.4f439122d4a3547049abc370fb2e94d8.woff2') format('woff2');
+        }
+
+        @font-face {
+            font-family: 'HelloFont ChuYuan 85';
+            src: url('https://font-public.canva.com/YAGhlAYFTZ0/0/HelloFont_ID_ChuYuan_85.de21708a20bb16ae.307714f3-9152-45c4-ac8b-b4b263673535.woff2') format('woff2');
+        }
+
+        @font-face {
+            font-family: 'HelloFont LieHei 35';
+            src: url('https://font-public.canva.com/YAGhlD7xYcE/0/HelloFont_ID_LieHei_35728599512130082210.ce7b2698-b949-4499-9ec0-cca18cd3d022.woff2') format('woff2');
+        }
+
+        @font-face {
+            font-family: 'ZCOOLXiaoWei';
+            src: url('https://font-public.canva.com/YAD1b1xytFY/0/ZCOOLXiaoWei-Regular.736bd82c7f113744a3c.64a366034826abbc9374cfe4e826a70c.woff2') format('woff2');
+        }
+
+        @font-face {
+            font-family: 'HelloFont FangZhuan 65';
+            src: url('https://font-public.canva.com/YAGhlNolV8g/0/HelloFont_ID_FangZhuan_65517312096382512.f427038d-543f-4473-82a9-60add5002a2b.woff2') format('woff2');
+        }
+
+        @font-face {
+            font-family: 'IwaTxt Lt';
+            src: url('https://font-public.canva.com/YAGLZ0QzLYI/0/IwaTxtStd-Lt.1b4b25cde4cf5e5a90f7f5f9dbb.2a619785-eb37-4d09-9f39-185a9b96188e.woff2') format('woff2');
+        }
+
+        @font-face {
+            font-family: 'HelloFont f129fa';
+            src: url('https://font-public.canva.com/YAGhlNolV8g/0/f129fad3-cb5d-491e-a17d-1bc572b71f482392.58c9fe95-bab4-4df3-b543-7e28e3fab398.woff2') format('woff2');
+        }
+
+        @font-face {
+            font-family: 'IwaTxt Db';
+            src: url('https://font-public.canva.com/YAGLZ0QzLYI/0/IwaTxtStd-Db.352359115245dcd4a2ef91feeea.af1507c4-714e-430c-a88a-e8cc57bc4cb4.woff2') format('woff2');
+        }
+
+        @font-face {
+            font-family: 'HelloFont 1613e0';
+            src: url('https://font-public.canva.com/YAGhlD7xYcE/0/1613e087-a330-432e-ad48-3003177ea7776053.94e859d4-8256-446b-a565-60516fe5db41.woff2') format('woff2');
+        }
+
+        @font-face {
+            font-family: 'HelloFont 3a7ef8';
+            src: url('https://font-public.canva.com/YAGhlNolV8g/0/3a7ef83f-e62a-44e8-b79d-25c15c7bd7b04538.f464485b-1ec3-47a2-ac3d-e9a5d5da6866.woff2') format('woff2');
+        }
+
+        @font-face {
+            font-family: 'LiuJianMaoCao';
+            src: url('https://font-public.canva.com/YAD1b_AjRlU/0/LiuJianMaoCao-Regular.9f30fff3ca85a3519f.f4571486ccdbebbae104b040e62fd926.woff2') format('woff2');
+        }
+
+        @font-face {
+            font-family: 'ZhiMangXing';
+            src: url('https://font-public.canva.com/YAD1b7zC5P4/0/ZhiMangXing-Regular.1eca1f78977b2bb31148.2c61ca51af290ecbed2d329a7edb2caa.woff2') format('woff2');
+        }
+
+        @font-face {
+            font-family: 'IwaTxt Bd';
+            src: url('https://font-public.canva.com/YAGLZ0QzLYI/0/IwaTxtStd-Bd.3a45e0741a4c7bfb070b7f65ee1.c59b826d-894c-4be3-98f1-34253d540579.woff2') format('woff2');
+        }
+
+        @font-face {
+            font-family: 'HelloFont ChuYuan 35';
+            src: url('https://font-public.canva.com/YAGhlAYFTZ0/0/HelloFont_ID_ChuYuan_35.818ecde710ce9bd4.ca38fd6a-b5b2-42e2-924c-b9ea42dc49b6.woff2') format('woff2');
+        }
+
+        @font-face {
+            font-family: 'HelloFont ChuYuan 55';
+            src: url('https://font-public.canva.com/YAGhlAYFTZ0/0/HelloFont_ID_ChuYuan_55.91891af82b71134e.c8125df0-38e9-49cb-838e-6ca4371825a4.woff2') format('woff2');
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -13,252 +223,612 @@
         }
 
         body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            padding: 40px 20px;
-        }
-
-        .container {
-            text-align: center;
-            padding: 50px 40px;
-            max-width: 900px;
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-        }
-
-        h1 {
-            color: #333;
-            margin-bottom: 15px;
-            font-size: 36px;
-            font-weight: 700;
-        }
-
-        .subtitle {
-            color: #666;
-            margin-bottom: 50px;
-            font-size: 18px;
-            line-height: 1.6;
-        }
-
-        .cards {
-            display: flex;
-            gap: 30px;
-            margin: 40px 0;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-
-        .card {
-            flex: 1;
-            min-width: 250px;
-            padding: 40px 30px;
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-            border-radius: 16px;
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s, box-shadow 0.3s;
-            cursor: pointer;
-        }
-
-        .card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
-        }
-
-        .card.heavy {
-            background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
-        }
-
-        .card.canva {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            overflow: hidden;
             background: linear-gradient(135deg, #7B3FF2 0%, #00C4CC 100%);
+            font-family: 'Canva Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
         }
 
-        .card.canva .card-title,
-        .card.canva .card-desc {
-            color: white;
+        .canvas-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
         }
 
-        .card.canva .card-link {
+        /* Font classes - used by text elements on canvas */
+        .font-canva-sans { font-family: 'Canva Sans', sans-serif; }
+        .font-canva-extra { font-family: 'Canva Sans Extra', sans-serif; }
+        .font-chuyuan-65 { font-family: 'HelloFont ChuYuan 65', sans-serif; }
+        .font-canglan { font-family: 'HelloFont CangLan', sans-serif; }
+        .font-bold-regular { font-family: 'Bold Regular', sans-serif; }
+        .font-hgssoe { font-family: 'HGSSOeiio', sans-serif; }
+        .font-regular-12558 { font-family: 'Regular 12558', sans-serif; }
+        .font-heavy-regular { font-family: 'Heavy Regular', sans-serif; }
+        .font-mashanzheng { font-family: 'MaShanZheng', sans-serif; }
+        .font-hello-03c668 { font-family: 'HelloFont 03c668', sans-serif; }
+        .font-hello-c29980 { font-family: 'HelloFont c29980', sans-serif; }
+        .font-regular-2675 { font-family: 'Regular 2675', sans-serif; }
+        .font-moqu { font-family: 'HelloFont MoQu', sans-serif; }
+        .font-hello-7266ba { font-family: 'HelloFont 7266ba', sans-serif; }
+        .font-fb-17 { font-family: 'Font FB 17', sans-serif; }
+        .font-chuyuan-25 { font-family: 'HelloFont ChuYuan 25', sans-serif; }
+        .font-hello-ef0965 { font-family: 'HelloFont ef0965', sans-serif; }
+        .font-chuyuan-75 { font-family: 'HelloFont ChuYuan 75', sans-serif; }
+        .font-fangzhuan-35 { font-family: 'HelloFont FangZhuan 35', sans-serif; }
+        .font-liehei-65 { font-family: 'HelloFont LieHei 65', sans-serif; }
+        .font-fangzhuan-45 { font-family: 'HelloFont FangZhuan 45', sans-serif; }
+        .font-liehei-45 { font-family: 'HelloFont LieHei 45', sans-serif; }
+        .font-longcang { font-family: 'LongCang', sans-serif; }
+        .font-chuyuan-45 { font-family: 'HelloFont ChuYuan 45', sans-serif; }
+        .font-linglong { font-family: 'HelloFont LingLong', sans-serif; }
+        .font-iwatxt-eb { font-family: 'IwaTxt Eb', sans-serif; }
+        .font-sourcehan { font-family: 'SourceHanSerif SC', sans-serif; }
+        .font-chuyuan-85 { font-family: 'HelloFont ChuYuan 85', sans-serif; }
+        .font-liehei-35 { font-family: 'HelloFont LieHei 35', sans-serif; }
+        .font-zcool { font-family: 'ZCOOLXiaoWei', sans-serif; }
+        .font-fangzhuan-65 { font-family: 'HelloFont FangZhuan 65', sans-serif; }
+        .font-iwatxt-lt { font-family: 'IwaTxt Lt', sans-serif; }
+        .font-hello-f129fa { font-family: 'HelloFont f129fa', sans-serif; }
+        .font-iwatxt-db { font-family: 'IwaTxt Db', sans-serif; }
+        .font-hello-1613e0 { font-family: 'HelloFont 1613e0', sans-serif; }
+        .font-hello-3a7ef8 { font-family: 'HelloFont 3a7ef8', sans-serif; }
+        .font-liujian { font-family: 'LiuJianMaoCao', sans-serif; }
+        .font-zhimang { font-family: 'ZhiMangXing', sans-serif; }
+        .font-iwatxt-bd { font-family: 'IwaTxt Bd', sans-serif; }
+        .font-chuyuan-35 { font-family: 'HelloFont ChuYuan 35', sans-serif; }
+        .font-chuyuan-55 { font-family: 'HelloFont ChuYuan 55', sans-serif; }
+
+        /* Design Canvas Styles */
+        .design-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            width: 100%;
+            height: 100%;
             background: white;
-            color: #7B3FF2;
+            overflow: hidden;
         }
 
-        .card.light {
-            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+        .canvas-element {
+            position: absolute;
+            transition: transform 0.3s ease;
+            cursor: move;
+            user-select: none;
         }
 
-        .card-icon {
-            font-size: 48px;
-            margin-bottom: 20px;
+        .canvas-element:hover {
+            transform: scale(1.02);
+            z-index: 100;
         }
 
-        .card-title {
-            font-size: 24px;
-            font-weight: 700;
-            color: #333;
-            margin-bottom: 10px;
+        .canvas-image {
+            max-width: 100%;
+            height: auto;
+            border-radius: 4px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
         }
 
-        .card-desc {
-            font-size: 14px;
-            color: #555;
-            margin-bottom: 20px;
-            line-height: 1.6;
+        .canvas-text {
+            padding: 10px 20px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 6px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+            white-space: nowrap;
+            backdrop-filter: blur(5px);
         }
 
-        .card-link {
+        .memory-indicator {
             display: inline-block;
-            padding: 12px 30px;
-            background: white;
-            color: #667eea;
-            text-decoration: none;
-            border-radius: 8px;
-            font-weight: 600;
-            font-size: 14px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-            transition: transform 0.2s, box-shadow 0.2s;
+            width: 8px;
+            height: 8px;
+            background: #00C4CC;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+            margin-right: 8px;
         }
 
-        .card-link:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
         }
 
-        .card-link:active {
-            transform: translateY(0);
-        }
-
-        .badge {
-            display: inline-block;
-            padding: 4px 12px;
-            border-radius: 12px;
-            font-size: 11px;
-            font-weight: 700;
-            text-transform: uppercase;
-            margin-top: 10px;
-        }
-
-        .badge.high {
-            background: #ffebee;
-            color: #c62828;
-        }
-
-        .badge.low {
-            background: #e8f5e9;
-            color: #2e7d32;
-        }
-
-        .info {
-            margin-top: 40px;
+        .control-panel {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.95);
             padding: 20px;
-            background: #f8f9fa;
             border-radius: 12px;
-            color: #666;
-            font-size: 14px;
-            line-height: 1.8;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            z-index: 1001;
+            min-width: 280px;
+            max-width: 320px;
         }
 
-        .info strong {
+        .control-section {
+            padding: 15px 0;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .control-section:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        .control-section:first-child {
+            padding-top: 0;
+        }
+
+        .control-section h3 {
+            margin: 0 0 12px 0;
+            font-family: 'Canva Sans', sans-serif;
+            font-size: 14px;
+            font-weight: 700;
             color: #333;
         }
 
-        .test-button {
-            margin-top: 30px;
-            padding: 15px 40px;
-            background: #667eea;
+        .sw-status {
+            display: flex;
+            align-items: center;
+            margin-bottom: 12px;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            font-size: 12px;
+        }
+
+        .status-indicator {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+
+        .status-indicator.active {
+            background: #00C4CC;
+            animation: pulse 2s infinite;
+        }
+
+        .status-indicator.inactive {
+            background: #999;
+        }
+
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 30px;
+        }
+
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 30px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 22px;
+            width: 22px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider {
+            background-color: #7B3FF2;
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(30px);
+        }
+
+        .sw-toggle-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .sw-toggle-label {
+            font-size: 13px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .sw-selector {
+            margin-top: 12px;
+        }
+
+        .sw-selector label {
+            display: block;
+            font-size: 12px;
+            font-weight: 600;
+            color: #666;
+            margin-bottom: 6px;
+        }
+
+        .sw-selector select {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            background: white;
+            font-size: 13px;
+            color: #333;
+            cursor: pointer;
+            font-family: 'Canva Sans', sans-serif;
+        }
+
+        .sw-selector select:focus {
+            outline: none;
+            border-color: #7B3FF2;
+        }
+
+        .element-count-display {
+            text-align: center;
+            font-size: 32px;
+            font-weight: 700;
+            color: #7B3FF2;
+            margin: 12px 0;
+            font-family: 'Canva Sans', sans-serif;
+        }
+
+        .element-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 12px;
+        }
+
+        .element-btn {
+            flex: 1;
+            padding: 10px 16px;
+            background: #7B3FF2;
             color: white;
             border: none;
             border-radius: 8px;
-            font-size: 16px;
             font-weight: 600;
+            font-size: 14px;
             cursor: pointer;
-            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
-            transition: transform 0.2s, box-shadow 0.2s;
+            transition: all 0.2s;
         }
 
-        .test-button:hover {
+        .element-btn:hover {
+            background: #6330c8;
             transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
         }
 
-        .test-button:active {
+        .element-btn:active {
             transform: translateY(0);
         }
-    </style>
-    <script>
-        // Test console logging on page load
-        console.log('Page loaded - testing console.log redirection');
-        console.info('This is an info message');
-        console.warn('This is a warning message');
-        console.debug('This is a debug message');
 
-        // Test button click handler
-        function testConsoleLog() {
-            const timestamp = new Date().toLocaleTimeString();
-            console.log('Button clicked at ' + timestamp);
-            console.warn('This is a test warning from button click');
-            console.error('This is a test error from button click');
-            console.info('This is a test info from button click');
-            console.log({ message: 'This is a JSON object', timestamp: timestamp, nested: { value: 42 } });
+        .element-btn.decrease {
+            background: #ff4757;
         }
 
-        // Force garbage collection
-        function forceGC() {
-            console.log('Attempting to force garbage collection...');
+        .element-btn.decrease:hover {
+            background: #e84118;
+        }
 
-            // Create and discard large objects to encourage GC
-            for (let i = 0; i < 10; i++) {
-                const temp = new Array(1000000).fill(0);
+        .element-info {
+            font-size: 12px;
+            color: #666;
+            text-align: center;
+            margin-top: 8px;
+        }
+
+        .canvas-stats {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            font-size: 12px;
+        }
+
+        .canvas-stats .stat-item {
+            display: flex;
+            align-items: center;
+        }
+
+        .canvas-stats .stat-value {
+            font-weight: 700;
+            color: #7B3FF2;
+            margin-left: 5px;
+        }
+
+        .quick-actions {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            margin-top: 12px;
+        }
+
+        .action-btn {
+            padding: 10px 16px;
+            background: #00C4CC;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .action-btn:hover {
+            background: #00a8b5;
+            transform: translateY(-2px);
+        }
+
+        .action-btn:active {
+            transform: translateY(0);
+        }
+
+        .action-btn.clear {
+            background: #ff4757;
+            grid-column: 1 / -1;
+        }
+
+        .action-btn.clear:hover {
+            background: #e84118;
+        }
+    </style>
+    <script src="app.js"></script>
+    <script>
+        // Service Worker Control Logic
+        const SW_ENABLED_KEY = 'sw-enabled';
+        const SW_SCRIPT_KEY = 'sw-script';
+
+        async function updateSWStatus() {
+            const statusText = document.getElementById('swStatusText');
+            const statusIndicator = document.getElementById('swStatusIndicator');
+            const toggle = document.getElementById('swToggle');
+
+            if (!('serviceWorker' in navigator)) {
+                statusText.textContent = 'Service Worker not supported';
+                statusIndicator.className = 'status-indicator inactive';
+                toggle.disabled = true;
+                return;
             }
 
-            console.log('GC hint sent (created and discarded large arrays)');
-            console.log('Note: JavaScript GC is non-deterministic and may not run immediately');
+            const registration = await navigator.serviceWorker.getRegistration();
+            const swEnabled = localStorage.getItem(SW_ENABLED_KEY) === 'true';
+
+            toggle.checked = swEnabled;
+
+            if (registration && registration.active) {
+                statusText.textContent = 'Active & Running';
+                statusIndicator.className = 'status-indicator active';
+            } else if (swEnabled) {
+                statusText.textContent = 'Enabled (pending)';
+                statusIndicator.className = 'status-indicator inactive';
+            } else {
+                statusText.textContent = 'Disabled';
+                statusIndicator.className = 'status-indicator inactive';
+            }
         }
 
+        async function toggleServiceWorker(enable) {
+            if (!('serviceWorker' in navigator)) {
+                alert('Service Worker is not supported in this browser');
+                return;
+            }
+
+            if (enable) {
+                // Enable Service Worker
+                const swScript = localStorage.getItem(SW_SCRIPT_KEY) || 'sw.js';
+                localStorage.setItem(SW_ENABLED_KEY, 'true');
+                try {
+                    const registration = await navigator.serviceWorker.register(swScript);
+                    console.log('Service Worker registered with scope:', registration.scope);
+                    console.log('Service Worker script:', swScript);
+                    // Reload the page to activate the service worker
+                    window.location.reload();
+                } catch (error) {
+                    console.error('Service Worker registration failed:', error);
+                    alert('Failed to register Service Worker: ' + error.message);
+                    localStorage.setItem(SW_ENABLED_KEY, 'false');
+                }
+            } else {
+                // Disable Service Worker
+                localStorage.setItem(SW_ENABLED_KEY, 'false');
+                try {
+                    const registration = await navigator.serviceWorker.getRegistration();
+                    if (registration) {
+                        await registration.unregister();
+                        console.log('Service Worker unregistered');
+                    }
+                    // Reload the page to complete the unregistration
+                    window.location.reload();
+                } catch (error) {
+                    console.error('Service Worker unregistration failed:', error);
+                    alert('Failed to unregister Service Worker: ' + error.message);
+                }
+            }
+        }
+
+        // Initialize Service Worker based on stored preference
+        async function initServiceWorker() {
+            const swEnabled = localStorage.getItem(SW_ENABLED_KEY) === 'true';
+            const swScript = localStorage.getItem(SW_SCRIPT_KEY) || 'sw.js';
+
+            // Update selector
+            const selector = document.getElementById('swScriptSelector');
+            if (selector) {
+                selector.value = swScript;
+            }
+
+            if (swEnabled && 'serviceWorker' in navigator) {
+                try {
+                    const registration = await navigator.serviceWorker.register(swScript);
+                    console.log('Service Worker auto-registered with scope:', registration.scope);
+                    console.log('Service Worker script:', swScript);
+                } catch (error) {
+                    console.error('Service Worker auto-registration failed:', error);
+                }
+            }
+
+            // Update status after initialization
+            await updateSWStatus();
+        }
+
+        // Handle toggle change
+        function handleToggleChange(event) {
+            toggleServiceWorker(event.target.checked);
+        }
+
+        // Handle service worker script change
+        function handleSWScriptChange(event) {
+            const newScript = event.target.value;
+            localStorage.setItem(SW_SCRIPT_KEY, newScript);
+            console.log('Service Worker script changed to:', newScript);
+
+            // If SW is enabled, prompt to reload
+            const swEnabled = localStorage.getItem(SW_ENABLED_KEY) === 'true';
+            if (swEnabled) {
+                alert('Service Worker script changed. The page will reload to apply changes.');
+                window.location.reload();
+            }
+        }
+
+        // Initialize when DOM is ready
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initServiceWorker);
+        } else {
+            initServiceWorker();
+        }
+
+        // Update status periodically
+        setInterval(updateSWStatus, 2000);
+
+        // Element Count Management
+        const ELEMENT_COUNT_KEY = 'target-element-count';
+        let targetElementCount = parseInt(localStorage.getItem(ELEMENT_COUNT_KEY) || '100');
+
+        function updateTargetDisplay() {
+            const display = document.getElementById('targetElementCount');
+            if (display) {
+                display.textContent = targetElementCount;
+            }
+        }
+
+        function increaseElements() {
+            targetElementCount += 50;
+            localStorage.setItem(ELEMENT_COUNT_KEY, targetElementCount.toString());
+            updateTargetDisplay();
+            adjustCanvasElements();
+        }
+
+        function decreaseElements() {
+            targetElementCount = Math.max(0, targetElementCount - 50);
+            localStorage.setItem(ELEMENT_COUNT_KEY, targetElementCount.toString());
+            updateTargetDisplay();
+            adjustCanvasElements();
+        }
+
+        function adjustCanvasElements() {
+            // This function will be called from app.js after it loads
+            if (window.adjustElementsToTarget) {
+                window.adjustElementsToTarget(targetElementCount);
+            }
+        }
+
+        // Initialize target display when DOM is ready
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', function() {
+                updateTargetDisplay();
+            });
+        } else {
+            updateTargetDisplay();
+        }
     </script>
 </head>
 <body>
-    <div class="container">
-        <h1>WKWebView Memory Test</h1>
-        <p class="subtitle">Compare memory usage between heavy and light web pages</p>
-
-        <div class="cards">
-            <div class="card canva" onclick="window.location.href='heavy_canva_fonts.html'">
-                <div class="card-icon">🎨</div>
-                <div class="card-title">Canva Fonts Test</div>
-                <div class="card-desc">40+ Canva CDN fonts with Service Worker toggle. Test with/without SW caching.</div>
-                <a href="heavy_canva_fonts.html" class="card-link">Load Canva Fonts</a>
-                <div class="badge high">High Memory</div>
+    <div class="control-panel">
+        <!-- Service Worker Section -->
+        <div class="control-section">
+            <h3>Service Worker</h3>
+            <div class="sw-status">
+                <span class="status-indicator inactive" id="swStatusIndicator"></span>
+                <span id="swStatusText">Checking...</span>
+            </div>
+            <div class="sw-toggle-row">
+                <span class="sw-toggle-label">Enable SW</span>
+                <label class="toggle-switch">
+                    <input type="checkbox" id="swToggle" onchange="handleToggleChange(event)">
+                    <span class="slider"></span>
+                </label>
+            </div>
+            <div class="sw-selector">
+                <label for="swScriptSelector">SW Script:</label>
+                <select id="swScriptSelector" onchange="handleSWScriptChange(event)">
+                    <option value="sw.js">sw.js (default)</option>
+                </select>
             </div>
         </div>
 
-        <div class="cards" style="margin-top: 20px;">
-            <div class="card heavy" onclick="window.location.href='auto_test.html'" style="background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%);">
-                <div class="card-icon">🔄</div>
-                <div class="card-title">Auto Test Loop</div>
-                <div class="card-desc">Automatically cycles between pages to quickly build memory pressure. Navigate between Page A and heavy fonts continuously.</div>
-                <a href="auto_test.html" class="card-link">Start Auto Test</a>
-                <div class="badge high">Memory Loop</div>
+        <!-- Canvas Elements Section -->
+        <div class="control-section">
+            <h3>Canvas Elements</h3>
+            <div class="element-count-display" id="targetElementCount">100</div>
+            <div class="element-info">Target element count</div>
+            <div class="element-buttons">
+                <button class="element-btn decrease" onclick="decreaseElements()">-50</button>
+                <button class="element-btn" onclick="increaseElements()">+50</button>
             </div>
         </div>
 
-        <div class="info">
-            <strong>How to use:</strong><br>
-            Watch the Xcode console for memory metrics (📊 App Memory, 👣 Memory Footprint).<br>
-            Compare the difference between loading heavy vs. light pages.
+        <!-- Canvas Stats Section -->
+        <div class="control-section">
+            <h3>Canvas Stats</h3>
+            <div class="canvas-stats">
+                <div class="stat-item">
+                    <span class="memory-indicator"></span>
+                    <span>Current:</span>
+                    <span class="stat-value" id="elementCount">0</span>
+                </div>
+            </div>
         </div>
 
-        <button class="test-button" onclick="testConsoleLog()">
-            🧪 Test Console Logging
-        </button>
+        <!-- Quick Actions Section -->
+        <div class="control-section">
+            <h3>Quick Actions</h3>
+            <div class="quick-actions">
+                <button class="action-btn" onclick="addImageToCanvas()">+ Image</button>
+                <button class="action-btn" onclick="addTextToCanvas()">+ Text</button>
+                <button class="action-btn" onclick="addMultipleElements()">+ 5 Items</button>
+                <button class="action-btn clear" onclick="clearCanvas()">Clear All</button>
+            </div>
+        </div>
+    </div>
 
-        <button class="test-button" onclick="forceGC()" style="margin-top: 10px;">
-            🗑️ Force Garbage Collection
-        </button>
+    <!-- Design Canvas Area -->
+    <div class="design-canvas" id="designCanvas">
+        <!-- Elements will be dynamically added here -->
     </div>
 </body>
 </html>
